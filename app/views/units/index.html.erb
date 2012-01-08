@@ -1,0 +1,5 @@
+<%= form_for(@event) do |f| %>
+  <%= render :partial => 'events/newevent', :locals => { :f => f, :from => 'unit' } %>
+<% end %>
+
+<%= render :partial => 'unitlist' %>

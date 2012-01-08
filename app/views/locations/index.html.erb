@@ -1,0 +1,24 @@
+<h1>Paikat</h1>
+
+<table>
+  <tr>
+    <th>Lyhenne</th><th>Nimi</th><th>Tyyppi</th>
+  </tr>
+
+<% for location in @locations %>
+  <tr>
+    <td><%= location.shortcode %></td>
+    <td><%= location.location %></td>
+    <td><%= location.x %></td>
+    <td><%= location.y %></td>
+    <td><%= location.type.name %></td>
+    <td><%= link_to 'N&auml;yt&auml;', location %></td>
+    <td><%= link_to 'Muokkaa', edit_location_path(location) %></td>
+    <td><%= link_to 'Poista', location, :confirm => 'Oletko varma?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Uusi paikka', new_location_path %>

@@ -1,0 +1,18 @@
+<h1>Uusi paikka</h1>
+
+<%= form_for(@location, @type) do |f| %>
+  <%= f.error_messages %>
+
+  <table>
+  <tr><td>Paikka:<td><td><%= f.text_field :location %></td></tr>
+  <tr><td>Lyhenne:<td><td><%= f.text_field :shortcode %></td></tr>
+  <tr><td>Tyyppi:<td><td><%= collection_select(:location, :type_id, Type.all, :id, :name) %></td></tr>
+  <tr><td>X:<td><td><%= f.text_field :x %></td></tr>
+  <tr><td>Y:<td><td><%= f.text_field :y %></td></tr>
+  </table>
+  <p>
+    <%= f.submit "Luo" %>
+  </p>
+<% end %>
+
+<%= link_to 'Takaisin', locations_path %>

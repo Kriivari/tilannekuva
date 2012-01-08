@@ -1,0 +1,9 @@
+<h1>Tilastoja</h1>
+
+<table>
+  <tr><td>Tavoitettuja asiakkaita</td><td><%= @customers %></td></tr>
+  <tr><td>Kuljetettuja asiakkaita</td><td><%= @transports %></td></tr>
+  <tr><td>Keskimääräinen tavoittamisaika</td><td><%= ( ( @reachtotal / @reachcount ) / 60 ).to_i %></td></tr>
+  <tr><td>Keskimääräinen hoitoonsaantiaika</td><td><%= ( ( @transporttotal / @transportcount ) / 60 ).to_i %></td></tr>
+</table>
+

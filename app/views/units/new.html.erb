@@ -1,0 +1,22 @@
+<h1>Uusi yksikkö</h1>
+
+<%= form_for(@unit) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :unit, 'Nimi' %>:
+    <%= f.text_field :unit %>
+  </p>
+  <p>
+    <%= f.label :phone, 'Puhelin' %>:
+    <%= f.text_field :phone %>
+  </p>
+  <p>
+    <%= f.label :details, 'Lisatiedot' %>:
+    <%= f.text_field :details %>
+  </p>
+  <p>
+    <%= f.submit "Luo" %>
+  </p>
+<% end %>
+

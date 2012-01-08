@@ -1,0 +1,33 @@
+
+<form action="/units/status" method="post" data-remote="true">
+<input type="hidden" name="id" value="<%= @unit.id %>" />
+<table>
+<tr><th colspan="<%= @states.size %>"><%= @unit %></th></tr>
+<tr><td id="state" colspan="<%= @states.size %>"><%= @unit.state %>
+<%= @unit.location %></td></tr>
+<% if @unit.currentcode %>
+<tr><td colspan="<%= @states.size %>"><%= @unit.currentcode.code %> <%= @unit.currentcode.explanation %>
+<% if @unit.currentcode.ensihoito %>
+<a href="http://www.terveysportti.fi/dtk/eho/avaa?p_artikkeli=<%= @unit.currentcode.ensihoito %>" target="ensihoito">Ensihoito-ohje</a>
+<% end %>
+</td></tr>
+<% end %>
+<tr><td colspan="<%= @states.size %>"><%= @unit.currentmessage %></td></tr>
+<tr>
+<% for state in @states %>
+<td><input type="submit" name="submit" value="<%= state %>" /></td>
+<% end %>
+</tr>
+<tr>
+<% for state in @states %>
+<td>
+<% if state.state == "Kuljettaa" %>
+<%= collection_select(:event, :location_id, Location.all(:conditions => 'destination=true', :order => 'location'), :id, :location) %>
+<% end %>
+</td>
+<% end %>
+</tr>
+</table>
+</form>
+
+

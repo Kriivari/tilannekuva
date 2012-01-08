@@ -1,0 +1,65 @@
+<h1>Uusi operaatio</h1>
+
+<%= form_for(@operation) do |f| %>
+  <%= f.error_messages %>
+
+  <table>
+  <tr>
+    <td><%= f.label :name, 'Nimi' %>:</td>
+    <td><%= f.text_field :name %></td>
+  </tr>
+  <tr>
+    <td colspan="2"><b>T&auml;yt&auml; seuraavat jos haluat Googlen kartan.</b></td>
+  </tr>
+  <tr>
+    <td><%= f.label :latitude, 'Latitude' %>:</td>
+    <td><%= f.text_field :latitude %></td>
+  </tr>
+  <tr>
+    <td><%= f.label :longitude, 'Longitude' %>:</td>
+    <td><%= f.text_field :longitude %></td>
+  </tr>
+  <tr>
+    <td><%= f.label :zoom, 'Zoom' %>:</td>
+    <td><%= f.text_field :zoom %></td>
+  </tr>
+  <tr>
+    <td><%= f.label :width, 'Leveys' %>:</td>
+    <td><%= f.text_field :width %></td>
+  </tr>
+  <tr>
+    <td><%= f.label :height, 'Korkeus' %>:</td>
+    <td><%= f.text_field :height %></td>
+  </tr>
+  <tr>
+    <td><%= f.label :postfix, 'Paikkapääte' %>:</td>
+    <td><%= f.text_field :postfix %></td>
+  </tr>
+  <tr>
+    <td colspan="2"><b>T&auml;yt&auml; seuraava jos haluat muun kartan.</b></td>
+  </tr>
+  <tr>
+    <td><%= f.label :map, 'Karttapohjan URL' %>:</td>
+    <td><%= f.text_field :map %></td>
+  </tr>
+  <tr>
+    <td colspan="2"><b>T&auml;yt&auml; seuraava jos haluat tekstiviestit.</b></td>
+  </tr>
+  <tr>
+    <td><%= f.label :smsurl, 'SMS-palvelun prefix' %>:</td>
+    <td><%= f.text_field :smsurl %></td>
+  </tr>
+  <tr>
+    <td colspan="2"><b>T&auml;yt&auml; seuraava jos kytkettyn&auml; on TETRA-puhelin.</b></td>
+  </tr>
+  <tr>
+    <td><%= f.label :tetraport, 'TETRA-puhelimen portti' %>:</td>
+    <td><%= f.text_field :tetraport %></td>
+  </tr>
+  <tr>
+    <td><%= f.submit "Luo" %></td>
+  </tr>
+  </table>
+<% end %>
+
+<%= link_to 'Takaisin', operations_path %>

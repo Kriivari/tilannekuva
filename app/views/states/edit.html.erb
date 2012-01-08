@@ -1,0 +1,12 @@
+<h1>Editing state</h1>
+
+<%= form_for(@state) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @state %> |
+<%= link_to 'Back', states_path %>

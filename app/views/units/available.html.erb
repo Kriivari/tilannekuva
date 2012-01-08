@@ -1,0 +1,23 @@
+<h1>Käytettävissä olevat yksiköt</h1>
+
+<form action="/units/changeavailability/1">
+<p><input type="submit" value="Muuta" /></p>
+<table>
+  <tr>
+    <th>Käytössä</th>
+    <th>Nimi</th>
+    <th>Tila</th>
+  </tr>
+<% for unit in @units %>
+  <tr>
+    <td><input name="available_<%= unit.id %>" type="checkbox"
+<% if unit.listorder == 1 %>
+checked
+<% end %>
+/></td>
+    <td><%= link_to unit.unit, :controller => "units", :action => "edit", :id => unit %></td>
+    <td><%= unit.state %></td>
+  </tr>
+<% end %>
+</table>
+</form>

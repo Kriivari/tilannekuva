@@ -1,0 +1,39 @@
+<h1>Tapahtumat</h1>
+
+<p>
+  <%= link_to 'Aikajärjestyksessä', '/events' %>
+  <%= link_to 'Yksiköittäin', '/events/byunit/1' %>
+  <%= link_to 'Tilastot', '/events/statistics/1' %>
+  <%= link_to 'Tauot', '/events/breaks/1' %>
+  <%= link_to 'Arkistoi', '/events/archive/1', :confirm => 'Oletko varma?' %>
+</p>
+
+<table>
+  <tr>
+    <th>Aika</th>
+    <th>Yksikk&ouml;</th>
+    <th>Tila</th>
+    <th>Koodi</th>
+    <th>Paikka</th>
+    <th>Johdosta</th>
+    <th>Viesti</th>
+  </tr>
+
+<% for event in @events %>
+  <tr>
+    <td><%= event.updated_at.strftime('%H.%M') %></td>
+    <td><%= event.unit %></td>
+    <td><%= event.state %></td>
+    <td><%= event.code %></td>
+    <td><%= event.location %></td>
+    <td><% if event.from_hq %>
+X
+<% end %></td>
+    <td><%= event.message %></td>
+    <td><%= link_to 'Poista', event, :confirm => 'Oletko varma?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+

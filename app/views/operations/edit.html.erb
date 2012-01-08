@@ -1,0 +1,52 @@
+<h1>Muokkaa operaatiota</h1>
+
+<%= form_for(@operation) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :name, 'Nimi' %>:
+    <%= f.text_field :name %>
+  </p>
+  <p>
+    <%= f.label :latitude, 'Latitude' %>:
+    <%= f.text_field :latitude %>
+  </p>
+  <p>
+    <%= f.label :longitude, 'Longitude' %>:
+    <%= f.text_field :longitude %>
+  </p>
+  <p>
+    <%= f.label :zoom, 'Zoom' %>:
+    <%= f.text_field :zoom %>
+  </p>
+  <p>
+    <%= f.label :width, 'Leveys' %>:
+    <%= f.text_field :width %>
+  </p>
+  <p>
+    <%= f.label :height, 'Korkeus' %>:
+    <%= f.text_field :height %>
+  </p>
+  <p>
+    <%= f.label :postfix, 'Paikkapääte' %>:
+    <%= f.text_field :postfix %>
+  </p>
+  <p>
+    <%= f.label :map, 'Karttatiedosto' %>:
+    <%= f.text_field :map %>
+  </p>
+  <p>
+    <%= f.label :smsurl, 'SMS-palvelun prefix' %>:
+    <%= f.text_field :smsurl %>
+  </p>
+  <p>
+    <%= f.label :tetraport, 'TETRA-puhelimen portti' %>:
+    <%= f.text_field :tetraport %>
+  </p>
+  <p>
+    <%= f.submit "Talleta" %>
+  </p>
+<% end %>
+
+<%= link_to 'Näytä', @operation %> |
+<%= link_to 'Takaisin', operations_path %>

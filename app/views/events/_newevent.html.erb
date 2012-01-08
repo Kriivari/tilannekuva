@@ -1,0 +1,27 @@
+  <%= javascript_include_tag 'jquery.min.js', :cache => false %>
+  <%= javascript_include_tag 'flexselect/liquidmetal.js', :cache => false %>
+  <%= javascript_include_tag 'flexselect/jquery.flexselect.js', :cache => false %>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("select[class*=flexselect]").flexselect({
+          allowMismatch: true,
+          inputNameTransform: function(name) { return "new_" + name; }
+        });
+      });
+    </script>
+
+<input type="hidden" name="previous" value="<%= from %>" /></td>
+<table>
+<tr><th>Yksikk&ouml;</th><th>Tila</th><th>Koodi</th><th>Paikka</th><th>Johto kutsui</th><th>Selite</th></tr>
+<tr>
+  <td><%= collection_select(:event, :unit_id, Unit.all(:conditions => 'listorder > -1', :order => 'listorder,unit'), :id, :unit) %></td>
+  <td><%= collection_select(:event, :state_id, State.all, :id, :state) %></td>
+  <td><%= collection_select(:event, :code_id, Code.all(:order => 'code'), :id, :formtext, {}, {:class => 'flexselect'} )%></td>
+  <td><%= collection_select(:event, :location_id, Location.all(:order => 'location'), :id, :formtext, {}, {:class => 'flexselect'} ) %></td>
+  <td><%= f.check_box :from_hq, {}, true, false %></td>
+  <td><%= f.text_field :message %></td>
+  <td><%= f.submit "Luo" %></td>
+</tr>
+</table>
+
+

@@ -1,0 +1,20 @@
+<h1>Tauot</h1>
+
+<table>
+  <tr>
+    <th>Aika</th>
+    <th>Yksikk&ouml;</th>
+    <th>Tila</th>
+    <th>Paikka</th>
+  </tr>
+
+<% for event in @events %>
+  <tr>
+    <td><%= event.created_at.strftime('%H.%M') %></td>
+    <td><%= event.unit %></td>
+    <td><%= event.state %></td>
+    <td><%= event.location %></td>
+  </tr>
+<% end %>
+</table>
+

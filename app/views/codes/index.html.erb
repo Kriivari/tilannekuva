@@ -1,0 +1,22 @@
+<h1>Koodit</h1>
+<p>
+<%= link_to 'Aakkosjärjestyksssä', '/codes?sort=foo' %>
+<%= link_to 'Numerojärjestyksessä', '/codes' %>
+</p>
+<table>
+  <tr>
+    <th>Koodi</th>
+    <th>Selite</th>
+  </tr>
+
+<% for code in @codes %>
+  <tr>
+    <td><%= code[0] %>
+    <td><%= code[1] %>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'Uusi koodi', new_code_path %>

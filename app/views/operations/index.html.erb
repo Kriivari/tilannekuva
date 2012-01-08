@@ -1,0 +1,40 @@
+<h1>Listing operations</h1>
+
+<table>
+  <tr>
+    <th>Nimi</th>
+    <th></th>
+    <th>Lat</th>
+    <th>Lon</th>
+    <th>Zoom</th>
+    <th>Leveys</th>
+    <th>Korkeus</th>
+    <th>Postfix</th>
+    <th>Kartta</th>
+    <th>SMS</th>
+    <th>Tetra</th>
+  </tr>
+
+<% for operation in @operations %>
+  <tr>
+    <td><%= operation.name %></td>
+    <td><%= operation.current %></td>
+    <td><%= operation.latitude %></td>
+    <td><%= operation.longitude %></td>
+    <td><%= operation.zoom %></td>
+    <td><%= operation.width %></td>
+    <td><%= operation.height %></td>
+    <td><%= operation.postfix %></td>
+    <td><%= operation.map %></td>
+    <td><%= operation.smsurl %></td>
+    <td><%= operation.tetraport %></td>
+    <td><%= link_to 'Show', operation %></td>
+    <td><%= link_to 'Edit', edit_operation_path(operation) %></td>
+    <td><%= link_to 'Destroy', operation, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New operation', new_operation_path %>

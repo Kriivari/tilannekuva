@@ -1,0 +1,12 @@
+<h1>Editing type</h1>
+
+<%= form_for(@type) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @type %> |
+<%= link_to 'Back', types_path %>

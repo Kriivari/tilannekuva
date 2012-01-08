@@ -1,0 +1,14 @@
+<h1>Uusi tyyppi</h1>
+
+<%= form_for(@type) do |f| %>
+  <%= f.error_messages %>
+
+  <table>
+  <tr><td>Tyyppi:<td><td><%= f.text_field :name %></td></tr>
+  </table>
+  <p>
+    <%= f.submit "Luo" %>
+  </p>
+<% end %>
+
+<%= link_to 'Takaisin', types_path %>

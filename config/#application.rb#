@@ -1,0 +1,5 @@
+  config.action_controller.session = {
+    :session_key => '_tilannekuva_session',
+    :secret      => '6c185e77e3b9fb6d92d7645f3b5bc67b077f5e9c762445eb7aa87a31b3ee6b412d70ae729c749e791a7b88082bd479263b61f992efad3e2ad914339f0e1ae970'
+  }
+
