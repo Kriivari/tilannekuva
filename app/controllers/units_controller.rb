@@ -1,5 +1,7 @@
 class UnitsController < ApplicationController
-  skip_before_filter :verify_authenticity_token  
+  skip_before_filter :verify_authenticity_token
+  before_filter :authenticate
+  
   # GET /units
   # GET /units.xml
   def index
