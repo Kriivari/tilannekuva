@@ -1,4 +1,6 @@
 class OperationsController < ApplicationController
+  before_filter :authenticate
+
   # GET /operations
   # GET /operations.xml
   def index

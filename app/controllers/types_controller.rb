@@ -1,4 +1,6 @@
 class TypesController < ApplicationController
+  before_filter :authenticate
+
   # GET /types
   # GET /types.xml
   def index

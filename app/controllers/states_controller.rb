@@ -1,4 +1,6 @@
 class StatesController < ApplicationController
+  before_filter :authenticate
+
   # GET /states
   # GET /states.xml
   def index
