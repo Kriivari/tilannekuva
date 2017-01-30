@@ -1,3 +1,3 @@
 class Operation < ActiveRecord::Base
-  scope :active, where( :current => true )
+  scope :active, -> { where current: true }
 end

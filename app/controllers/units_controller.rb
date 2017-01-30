@@ -72,7 +72,7 @@ class UnitsController < ApplicationController
 
     respond_to do |format|
       if @unit.save
-        flash[:notice] = 'Unit was successfully created.'
+        flash["notice"] = 'Unit was successfully created.'
         format.html { redirect_to(@unit) }
         format.xml  { render :xml => @unit, :status => :created, :location => @unit }
       else
@@ -89,7 +89,7 @@ class UnitsController < ApplicationController
 
     respond_to do |format|
       if @unit.update_attributes(params[:unit])
-        flash[:notice] = 'Unit was successfully updated.'
+        flash["notice"] = 'Unit was successfully updated.'
         format.html { redirect_to(@unit) }
         format.xml  { head :ok }
       else
@@ -126,7 +126,7 @@ class UnitsController < ApplicationController
       else
         unit.listorder = -1
       end
-      unit.save
+      unit.save!
     end
     render :action => "available"
   end

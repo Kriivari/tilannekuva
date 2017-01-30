@@ -14,10 +14,10 @@
 <table>
 <tr><th>Yksikk&ouml;</th><th>Tila</th><th>Koodi</th><th>Paikka</th><th>Johto kutsui</th><th>Selite</th></tr>
 <tr>
-  <td><%= collection_select(:event, :unit_id, Unit.all(:conditions => 'listorder > -1', :order => 'listorder,unit'), :id, :unit) %></td>
+  <td><%= collection_select(:event, :unit_id, Unit.list, :id, :unit) %></td>
   <td><%= collection_select(:event, :state_id, State.all, :id, :state) %></td>
-  <td><%= collection_select(:event, :code_id, Code.all(:order => 'code'), :id, :formtext, {}, {:class => 'flexselect'} )%></td>
-  <td><%= collection_select(:event, :location_id, Location.all(:order => 'location'), :id, :formtext, {}, {:class => 'flexselect'} ) %></td>
+  <td><%= collection_select(:event, :code_id, Code.list, :id, :formtext, {}, {:class => 'flexselect'} )%></td>
+  <td><%= collection_select(:event, :location_id, Location.list, :id, :formtext, {}, {:class => 'flexselect'} ) %></td>
   <td><%= f.check_box :from_hq, {}, true, false %></td>
   <td><%= f.text_field :message %></td>
   <td><%= f.submit "Luo" %></td>

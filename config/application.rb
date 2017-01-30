@@ -3,10 +3,7 @@ require File.expand_path('../boot', __FILE__)
 require 'rails/all'
 
 if defined?(Bundler)
-  # If you precompile assets before deploying to production, use this line
-  Bundler.require(*Rails.groups(:assets => %w(development test)))
-  # If you want your assets lazily compiled in production, use this line
-  # Bundler.require(:default, :assets, Rails.env)
+  Bundler.require(*Rails.groups)
 end
 
 module Tilannekuva
@@ -46,6 +43,10 @@ module Tilannekuva
     config.assets.version = '1.0'
 
     # Basic AJAX stuff
-    config.action_view.javascript_expansions[:defaults] = %w(jquery application)
+    #config.action_view.javascript_expansions[:defaults] = %w(jquery application)
+
+    # New error handling
+    config.active_record.raise_in_transactional_callbacks = true
+    
   end
 end

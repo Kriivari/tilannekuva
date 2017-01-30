@@ -1,17 +1,12 @@
 class Unit < ActiveRecord::Base
-  belongs_to :state
-  belongs_to :location
+  belongs_to :state, optional: true
+  belongs_to :location, optional: true
   has_many :events
 
-  scope :queue, where( :listorder => 0 )
-
-  def self.real
-    return Unit.where( "listorder > 0" ).order(:unit).all
-  end
-
-  def self.virtual
-    return Unit.where( "listorder < 0 or listorder = 1" ).order(:unit).all
-  end
+  scope :queue, -> { where listorder: 0 }
+  scope :list, -> { where( "listorder > -1" ).order( :listorder, :unit ) }
+  scope :real, -> { where( "listorder = 1").order(:unit) }
+  scope :virtual, -> { where( "listorder < 0 or listorder = 1").order(:unit) }
 
   def to_s
     self.unit
@@ -77,7 +72,7 @@ class Unit < ActiveRecord::Base
   end
 
   def get_current_event
-    events = Event.scoped(:conditions => ["unit_id=? and archived is null", self.id], :order => "updated_at desc").all
+    events = Event.where(["unit_id=? and archived is null", self.id]).order("updated_at desc")
     if events != nil && events.size > 0
       return events.first
     end

@@ -1,7 +1,13 @@
 <h1>Muokkaa operaatiota</h1>
 
 <%= form_for(@operation) do |f| %>
-  <%= f.error_messages %>
+<% if @operation.errors.any? %>
+<ul>
+  <% @operation.errors.full_messages.each do |msg| %>
+  <li><%= msg %></li>
+  <% end %>
+  </ul>
+<% end %>
 
   <p>
     <%= f.label :name, 'Nimi' %>:

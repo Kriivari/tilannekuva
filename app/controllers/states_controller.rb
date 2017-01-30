@@ -44,7 +44,7 @@ class StatesController < ApplicationController
 
     respond_to do |format|
       if @state.save
-        flash[:notice] = 'State was successfully created.'
+        flash["notice"] = 'State was successfully created.'
         format.html { redirect_to(@state) }
         format.xml  { render :xml => @state, :status => :created, :location => @state }
       else
@@ -61,7 +61,7 @@ class StatesController < ApplicationController
 
     respond_to do |format|
       if @state.update_attributes(params[:state])
-        flash[:notice] = 'State was successfully updated.'
+        flash["notice"] = 'State was successfully updated.'
         format.html { redirect_to(@state) }
         format.xml  { head :ok }
       else

@@ -2,7 +2,7 @@ class LocationsController < ApplicationController
   # GET /locations
   # GET /locations.xml
   def index
-    @locations = Location.scoped(:order => 'location').all
+    @locations = Location.where(:order => 'location').all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -44,7 +44,7 @@ class LocationsController < ApplicationController
 
     respond_to do |format|
       if @location.save
-        flash[:notice] = 'Location was successfully created.'
+        flash["notice"] = 'Location was successfully created.'
         format.html { redirect_to(@location) }
         format.xml  { render :xml => @location, :status => :created, :location => @location }
       else
@@ -61,7 +61,7 @@ class LocationsController < ApplicationController
 
     respond_to do |format|
       if @location.update_attributes(params[:location])
-        flash[:notice] = 'Location was successfully updated.'
+        flash["notice"] = 'Location was successfully updated.'
         format.html { redirect_to(@location) }
         format.xml  { head :ok }
       else

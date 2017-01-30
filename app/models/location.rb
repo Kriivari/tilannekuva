@@ -3,6 +3,8 @@ class Location < ActiveRecord::Base
   has_many :units
   has_many :events
 
+  scope :list, -> { order( 'location' ) }
+
   def to_s
     return self.location
   end

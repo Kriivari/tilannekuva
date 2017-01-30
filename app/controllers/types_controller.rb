@@ -44,7 +44,7 @@ class TypesController < ApplicationController
 
     respond_to do |format|
       if @type.save
-        flash[:notice] = 'Type was successfully created.'
+        flash["notice"] = 'Type was successfully created.'
         format.html { redirect_to(@type) }
         format.xml  { render :xml => @type, :status => :created, :location => @type }
       else
@@ -61,7 +61,7 @@ class TypesController < ApplicationController
 
     respond_to do |format|
       if @type.update_attributes(params[:type])
-        flash[:notice] = 'Type was successfully updated.'
+        flash["notice"] = 'Type was successfully updated.'
         format.html { redirect_to(@type) }
         format.xml  { head :ok }
       else

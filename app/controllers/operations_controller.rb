@@ -40,7 +40,7 @@ class OperationsController < ApplicationController
   # POST /operations
   # POST /operations.xml
   def create
-    @operation = Operation.new(params[:operation])
+    @operation = Operation.new(operation_params)
     @operation.current = true
     for operation in Operation.all
       operation.current = false
@@ -48,7 +48,7 @@ class OperationsController < ApplicationController
     end
     respond_to do |format|
       if @operation.save
-        flash[:notice] = 'Operation was successfully created.'
+        flash["notice"] = 'Operation was successfully created.'
         format.html { redirect_to(@operation) }
         format.xml  { render :xml => @operation, :status => :created, :location => @operation }
       else
@@ -64,8 +64,8 @@ class OperationsController < ApplicationController
     @operation = Operation.find(params[:id])
 
     respond_to do |format|
-      if @operation.update_attributes(params[:operation])
-        flash[:notice] = 'Operation was successfully updated.'
+      if @operation.update_attributes(operation_params)
+        flash["notice"] = 'Operation was successfully updated.'
         format.html { redirect_to(@operation) }
         format.xml  { head :ok }
       else
@@ -85,5 +85,10 @@ class OperationsController < ApplicationController
       format.html { redirect_to(operations_url) }
       format.xml  { head :ok }
     end
+  end
+
+  private
+  def operation_params
+    params.require(:operation).permit(:name, :latitude, :longitude, :zoom, :width, :height, :postfix, :map, :smsurl, :tetraport)
   end
 end

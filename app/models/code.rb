@@ -1,6 +1,8 @@
 class Code < ActiveRecord::Base
   has_many :events
 
+  scope :list, -> { order( 'code' ) }
+
   def to_s
     return self.code
   end

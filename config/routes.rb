@@ -3,14 +3,14 @@ Tilannekuva::Application.routes.draw do
   resources :events
   resources :locations
   resources :units
-  match 'units/view' => 'unit#view'
-  match 'units/available' => 'unit#available'
-  match 'units/unit' => 'unit#unit'
+  get 'units/view' => 'unit#view'
+  get 'units/available' => 'unit#available'
+  get 'units/unit' => 'unit#unit'
   resources :states
   resources :codes
   resources :types
   resources :events
-  match 'unit' => 'unit#index'
-  match '/' => 'units#index'
-  match '/:controller(/:action(/:id))'
+  get 'unit' => 'unit#index'
+  get '/' => 'units#index'
+  get '/:controller(/:action(/:id))'
 end

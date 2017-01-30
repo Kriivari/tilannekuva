@@ -4,9 +4,9 @@ class CodesController < ApplicationController
   def index
     @codes = []
     if params[:sort]
-      codes = Code.scoped(:order => "explanation").all
+      codes = Code.where(:order => "explanation").all
     else
-      codes = Code.scoped(:order => "code").all
+      codes = Code.where(:order => "code").all
     end
     previous = ""
     prevexplanation = ""
@@ -69,7 +69,7 @@ class CodesController < ApplicationController
 
     respond_to do |format|
       if @code.save
-        flash[:notice] = 'Code was successfully created.'
+        flash["notice"] = 'Code was successfully created.'
         format.html { redirect_to(@code) }
         format.xml  { render :xml => @code, :status => :created, :location => @code }
       else
@@ -86,7 +86,7 @@ class CodesController < ApplicationController
 
     respond_to do |format|
       if @code.update_attributes(params[:code])
-        flash[:notice] = 'Code was successfully updated.'
+        flash["notice"] = 'Code was successfully updated.'
         format.html { redirect_to(@code) }
         format.xml  { head :ok }
       else

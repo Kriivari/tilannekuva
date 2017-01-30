@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.xml
   def index
-    @events = Event.scoped(:conditions => { :archived => nil }, :order => "updated_at desc").all
+    @events = Event.where(archived: nil).order("updated_at desc").all
 
     respond_to do |format|
       format.html # index.html.erb
@@ -12,7 +12,7 @@ class EventsController < ApplicationController
 
   # GET /byunit
   def byunit
-    @events = Event.scoped(:conditions => { :archived => nil }, :order => "unit_id, updated_at desc").all
+    @events = Event.where(archived: nil).order("unit_id, updated_at desc").all
 
     respond_to do |format|
       format.html { render :action => "index" }
@@ -53,7 +53,7 @@ class EventsController < ApplicationController
 
   # POST /events/newcomment
   def newcomment
-    @event = Event.new(params[:event])
+    @event = Event.new(event_params)
     @event.save
 
     respond_to do |format|
@@ -64,22 +64,30 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.xml
   def create
-    @event = Event.new(params[:event])
+    @event = Event.new(event_params)
     current = @event.unit.get_current_event
     locationtext = params[:new_event][:location_id]
-    if current != nil && @event.state.id > 1 && @event.state.id < 7
-      if ! @event.code || @event.code.code == nil || @event.code.code.length == 0
-        @event.code = current.code
+    if @event.state.id == 1 || @event.state.id == 9
+      @event.code = nil
+    end
+    if current != nil
+      if @event.state.id == 0
+        @event.state = current.state
       end
-      if (! @event.location && (locationtext == nil || locationtext.length == 0)) || @event.location.location == nil || @event.location.location.length == 0
+      if @event.state.id > 1 && @event.state.id < 9
+        if @event.code.id == 0
+          @event.code = current.code
+        end
+        if @event.message == nil || @event.message.length == 0
+          @event.message = current.message
+        end
+      end
+      if @event.location != nil && @event.location.id == 0 && locationtext == 'Ei muutosta'
         @event.location = current.location
-      end
-      if @event.message == nil || @event.message.length == 0
-        @event.message = current.message
       end
     end
 
-    if ! @event.location
+    if ! @event.location || ( @event.location.id == 0 && locationtext != 'Ei muutosta' )
       location = Location.create
       location.location = locationtext
       location.type_id = 0
@@ -94,7 +102,7 @@ class EventsController < ApplicationController
     end
 
     respond_to do |format|
-      if @event.save && @event.unit.save
+      if @event.save! && @event.unit.save!
         if params[:previous] == "unit"
           format.html { redirect_to :controller => "units", :action => "index" }
         else
@@ -114,12 +122,12 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
 
     respond_to do |format|
-      if @event.update_attributes(params[:event])
+      if @event.update_attributes(event_params)
         @event.unit.state = @event.state
         @event.unit.location = @event.location
         @event.unit.save
-        smsurl = Operation.scoped(:conditions => { current => t }).first.smsurl
-        tetraport = Operation.scoped(:conditions => { current => t }).first.smstetraport
+        smsurl = Operation.where(current: t).first.smsurl
+        tetraport = Operation.where(current: t).first.smstetraport
         if @event.unit.phone && smsurl
           require "net/http"
           begin
@@ -166,17 +174,17 @@ class EventsController < ApplicationController
   end
 
   def breaks
-    @events = Event.scoped(:conditions => {:archived => nil, :state_id => 8}, :order => "created_at desc").all
+    @events = Event.where(archived: nil, state_id: 8).order("created_at desc").all
   end
 
   def archive
-    events = Event.scoped(:conditions => {:archived => nil}).all
+    events = Event.where(archived: nil).all
     for event in events
       event.archived = Time.now
       event.save
     end
     units = Unit.all
-    free = State.scoped(:conditions => {:state => 'Vapaa'}).all
+    free = State.where(state: 'Vapaa').all
     for unit in units
       if unit.listorder == 1
         unit.listorder = -1
@@ -196,7 +204,7 @@ class EventsController < ApplicationController
     @transporttotal = 0
     @transportcount = 0
     for unit in Unit.all
-      events = Event.scoped(:conditions => ["archived is null and unit_id=?", unit.id], :order => "updated_at").all
+      events = Event.where(["archived is null and unit_id=?", unit.id]).order("updated_at").all
       reaching = false
       transporting = false
       reachstart = nil
@@ -240,10 +248,15 @@ class EventsController < ApplicationController
     end
     if code
       code = code.upcase
-      event.code = Code.scoped(:conditions => { :code => code }).first
+      event.code = Code.where(code: code).first
     end
     event.unit_id = 0
     event.message = text
     event.save
+  end
+
+  private
+  def event_params
+    params.require(:event).permit(:code_id, :location_id, :state_id, :unit_id, :from_hq, :message, :archived)
   end
 end
