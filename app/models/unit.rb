@@ -71,7 +71,8 @@ class Unit < ActiveRecord::Base
     return ""
   end
   def updated(format)
-    if self.updated_at != nil
+    ev = get_current_event
+    if self.updated_at != nil && (ev == nil || ev.updated_at != updated_at)
       return updated_at.strftime(format)
     end
     return ""
