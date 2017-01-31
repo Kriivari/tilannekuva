@@ -12,6 +12,7 @@
     <th>Koodi</th>
     <th>Viesti</th>
     <th>Aika</th>
+    <th>P&auml;ivitys</th>
   </tr>
 
 <% for unit in @units %>
@@ -38,6 +39,7 @@
 <% end %>
     <td><%= unit.currentmessage %></td>
     <td><%= unit.currenttime('%H.%M') %></td>
+    <td><%= unit.updated('%H.%M') %></td>
   </tr>
 <% end %>
 </table>

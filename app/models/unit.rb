@@ -70,6 +70,12 @@ class Unit < ActiveRecord::Base
     end
     return ""
   end
+  def updated(format)
+    if self.updated_at != nil
+      return updated_at.strftime(format)
+    end
+    return ""
+  end
 
   def get_current_event
     events = Event.where(["unit_id=? and archived is null", self.id]).order("updated_at desc")
