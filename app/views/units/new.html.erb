@@ -1,7 +1,17 @@
 <h1>Uusi yksikkö</h1>
 
 <%= form_for(@unit) do |f| %>
-  <%= f.error_messages %>
+<% if @unit.errors.any? %>
+<div id="error_explanation">
+  <h2><%= pluralize(@unit.errors.count, "error") %> estivät tätä yksikköä tallentumasta:</h2>
+
+  <ul>
+    <% @unit.errors.full_messages.each do |msg| %>
+    <li><%= msg %></li>
+    <% end %>
+  </ul>
+</div>
+  <% end %>
 
   <p>
     <%= f.label :unit, 'Nimi' %>:

@@ -1,4 +1,7 @@
 Tilannekuva::Application.routes.draw do
+  devise_for :users
+  root to: "unit#view"
+  
   resources :operations
   resources :events
   resources :locations
