@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_filter :authenticate
+  before_action :authenticate_user!
 
   # GET /events
   # GET /events.xml

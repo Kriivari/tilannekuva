@@ -1,5 +1,5 @@
 class LocationsController < ApplicationController
-  before_filter :authenticate
+  before_action :authenticate_user!
 
   # GET /locations
   # GET /locations.xml

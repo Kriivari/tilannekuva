@@ -1,6 +1,7 @@
+# coding: utf-8
 class UnitsController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_filter :authenticate
+  before_action :authenticate_user!
   
   # GET /units
   # GET /units.xml
@@ -75,7 +76,7 @@ class UnitsController < ApplicationController
     respond_to do |format|
       if @unit.save
         flash["notice"] = 'Unit was successfully created.'
-        format.html { redirect_to(@unit) }
+        format.html { redirect_to :action => "available" }
         format.xml  { render :xml => @unit, :status => :created, :location => @unit }
       else
         format.html { render :action => "new" }
@@ -91,8 +92,8 @@ class UnitsController < ApplicationController
 
     respond_to do |format|
       if @unit.update_attributes(unit_params)
-        flash["notice"] = 'Unit was successfully updated.'
-        format.html { redirect_to(@unit) }
+        flash["notice"] = 'Yksikkö päivitetty.'
+        format.html { redirect_to :action => "available" }
         format.xml  { head :ok }
       else
         format.html { render :action => "edit" }
@@ -108,7 +109,7 @@ class UnitsController < ApplicationController
     @unit.destroy
 
     respond_to do |format|
-      format.html { redirect_to(units_url) }
+      format.html { redirect_to(@unit) }
       format.xml  { head :ok }
     end
   end

@@ -1,5 +1,5 @@
 class OperationsController < ApplicationController
-  before_filter :authenticate
+  before_action :authenticate_user!
 
   # GET /operations
   # GET /operations.xml
