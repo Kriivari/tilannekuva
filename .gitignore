@@ -27,3 +27,5 @@ tmp
 vendor
 test/fixtures/.keep
 test/integration/.keep
+
+config/database.yml
