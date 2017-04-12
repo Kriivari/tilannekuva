@@ -1,6 +1,6 @@
 class UnitsController < ApplicationController
   skip_before_filter :verify_authenticity_token
-  before_filter :authenticate
+  before_filter :authenticate_user!
   
   # GET /units
   # GET /units.xml
@@ -69,7 +69,7 @@ class UnitsController < ApplicationController
   # POST /units
   # POST /units.xml
   def create
-    @unit = Unit.new(params[:unit])
+    @unit = Unit.new(unit_params)
     @unit.listorder = 1
 
     respond_to do |format|
@@ -90,7 +90,7 @@ class UnitsController < ApplicationController
     @unit = Unit.find(params[:id])
 
     respond_to do |format|
-      if @unit.update_attributes(params[:unit])
+      if @unit.update_attributes(unit_params)
         flash["notice"] = 'Unit was successfully updated.'
         format.html { redirect_to(@unit) }
         format.xml  { head :ok }
@@ -184,5 +184,10 @@ class UnitsController < ApplicationController
       format.html
       format.js
     end
+  end
+
+  private
+  def unit_params
+    params.permit(:unit, :phone, :details, :imei)
   end
 end
