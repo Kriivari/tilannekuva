@@ -68,7 +68,7 @@
     <td><%= queue.location %></td>
     <td><%= queue.message %></td>
     <td><%= form_for(queue) do |f| %>
-      <%= collection_select(:event, :unit_id, Unit.all(:conditions => 'listorder = 1', :order => 'unit'), :id, :unit) %>
+      <%= collection_select(:event, :unit_id, Unit.where('listorder = 1').order('unit'), :id, :unit) %>
       <%= collection_select(:event, :state_id, State.all(), :id, :state) %>
       <%= f.submit "Siirrä" %>
       <% end %></td>

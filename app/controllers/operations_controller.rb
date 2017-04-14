@@ -91,6 +91,6 @@ class OperationsController < ApplicationController
 
   private
   def operation_params
-    params.require(:operation).permit(:name, :latitude, :longitude, :zoom, :width, :height, :postfix, :map, :smsurl, :tetraport)
+    params.require(:operation).permit(:name, :latitude, :longitude, :zoom, :width, :height, :postfix, :map, :smsurl, :smstoken, :smsfrom, :tetraport)
   end
 end

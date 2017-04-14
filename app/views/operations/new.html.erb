@@ -49,12 +49,20 @@
     <td><%= f.text_field :map %></td>
   </tr>
   <tr>
-    <td colspan="2"><b>Täytä seuraava jos haluat tekstiviestit. (ei toimi)</b></td>
+    <td colspan="2"><b>Täytä seuraavat jos haluat tekstiviestit. (ei toimi)</b></td>
   </tr>
   <tr>
-    <td><%= f.label :smsurl, 'SMS-palvelun prefix' %>:</td>
+    <td><%= f.label :smsurl, 'SMS-palvelun tili' %>:</td>
     <td><%= f.text_field :smsurl %></td>
   </tr>
+  <tr>
+    <td><%= f.label :smstoken, 'SMS-palvelun salasana' %>:</td>
+    <td><%= f.text_field :smstoken %></td>
+  </tr>
+  <p>
+    <%= f.label :smsfrom, 'SMS-palvelun lähtönumero' %>:
+    <%= f.text_field :smsfrom %>
+  </p>
   <tr>
     <td colspan="2"><b>Täytä seuraava jos kytkettynä on TETRA-puhelin. (ei toimi)</b></td>
   </tr>

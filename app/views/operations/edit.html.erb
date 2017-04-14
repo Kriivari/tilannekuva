@@ -42,8 +42,16 @@
     <%= f.text_field :map %>
   </p>
   <p>
-    <%= f.label :smsurl, 'SMS-palvelun prefix' %>:
+    <%= f.label :smsurl, 'SMS-palvelun tili' %>:
     <%= f.text_field :smsurl %>
+  </p>
+  <p>
+    <%= f.label :smstoken, 'SMS-palvelun salasana' %>:
+    <%= f.text_field :smstoken %>
+  </p>
+  <p>
+    <%= f.label :smsfrom, 'SMS-palvelun lähtönumero' %>:
+    <%= f.text_field :smsfrom %>
   </p>
   <p>
     <%= f.label :tetraport, 'TETRA-puhelimen portti' %>:
