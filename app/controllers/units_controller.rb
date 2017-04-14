@@ -1,6 +1,6 @@
 # coding: utf-8
 class UnitsController < ApplicationController
-  skip_before_filter :verify_authenticity_token
+  skip_before_action :verify_authenticity_token
   before_action :authenticate
   
   # GET /units
@@ -18,7 +18,7 @@ class UnitsController < ApplicationController
     end
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @units }
+      format.xml  { render xml: @units }
     end
   end
 
@@ -36,7 +36,7 @@ class UnitsController < ApplicationController
     end
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @units }
+      format.xml  { render xml: @units }
     end
   end
 
@@ -47,7 +47,7 @@ class UnitsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  { render :xml => @unit }
+      format.xml  { render xml: @unit }
     end
   end
 
@@ -58,7 +58,7 @@ class UnitsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  { render :xml => @unit }
+      format.xml  { render xml: @unit }
     end
   end
 
@@ -76,11 +76,11 @@ class UnitsController < ApplicationController
     respond_to do |format|
       if @unit.save
         flash["notice"] = 'Unit was successfully created.'
-        format.html { redirect_to :action => "available" }
-        format.xml  { render :xml => @unit, :status => :created, :location => @unit }
+        format.html { redirect_to action: "available" }
+        format.xml  { render xml: @unit, status: :created, location: @unit }
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @unit.errors, :status => :unprocessable_entity }
+        format.html { render action: "new" }
+        format.xml  { render xml: @unit.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -93,11 +93,11 @@ class UnitsController < ApplicationController
     respond_to do |format|
       if @unit.update_attributes(unit_params)
         flash["notice"] = 'Yksikkö päivitetty.'
-        format.html { redirect_to :action => "available" }
+        format.html { redirect_to action: "available" }
         format.xml  { head :ok }
       else
-        format.html { render :action => "edit" }
-        format.xml  { render :xml => @unit.errors, :status => :unprocessable_entity }
+        format.html { render action: "edit" }
+        format.xml  { render xml: @unit.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -131,7 +131,7 @@ class UnitsController < ApplicationController
       end
       unit.save!
     end
-    render :action => "available"
+    render action: "available"
   end
 
   # GET /unit
@@ -189,6 +189,6 @@ class UnitsController < ApplicationController
 
   private
   def unit_params
-    params.permit(:unit, :phone, :details, :imei)
+    params.require(:unit).permit(:unit, :phone, :details, :imei)
   end
 end

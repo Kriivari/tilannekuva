@@ -9,5 +9,6 @@ class ApplicationController < ActionController::Base
       end
     else
       authenticate_user!
+    end
   end
 end

@@ -33,4 +33,5 @@
     <%= f.submit "Talleta" %>
   </p>
 <% end %>
+<%= button_to "Poista yksikkö", {action: "destroy", id: @unit.id }, method: :delete, data: { confirm: "Oletko varma?" } %>
 
