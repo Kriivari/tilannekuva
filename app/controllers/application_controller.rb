@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   def authenticate
     if Rails.configuration.use_basic_auth
       authenticate_or_request_with_http_basic do |username, password|
-        username == "risti" && password == "sparra"
+        username == Rails.configuration.basic_auth_user && password == Rails.configuration.basic_auth_password
       end
     else
       authenticate_user!

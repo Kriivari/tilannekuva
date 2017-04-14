@@ -77,19 +77,19 @@ class EventsController < ApplicationController
         @event.state = current.state
       end
       if @event.state.id > 1 && @event.state.id < 9
-        if @event.code.id == 0
+        if @event.code == nil || @event.code.id == 0
           @event.code = current.code
         end
         if @event.message == nil || @event.message.length == 0
           @event.message = current.message
         end
       end
-      if @event.location != nil && @event.location.id == 0 && locationtext == 'Ei muutosta'
+      if locationtext == nil || locationtext.length == 0
         @event.location = current.location
       end
     end
 
-    if ! @event.location || ( @event.location.id == 0 && locationtext != 'Ei muutosta' )
+    if ! @event.location || ( @event.location.id == 0 && locationtext && locationtext.length > 0 )
       location = Location.create
       location.location = locationtext
       location.type_id = 0

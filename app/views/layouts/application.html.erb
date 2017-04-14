@@ -21,6 +21,7 @@
 	  <li><%= link_to 'Operaatiot', operations_path %></li>
 	  <li><%= link_to 'Koodit', codes_path %></li>
 	</ul>
+<% if ! Rails.configuration.use_basic_auth %>
 	<ul class="nav navbar-nav pull-right">
 	  <% if user_signed_in? %>
 	  <li class="dropdown">
@@ -36,6 +37,7 @@
 	  <li><%= link_to 'Kirjaudu sisään', new_user_session_path %></li>
 	  <% end %>
 	</ul>
+<% end %>
       </div>
     </div>
   </nav>

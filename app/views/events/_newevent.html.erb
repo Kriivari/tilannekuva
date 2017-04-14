@@ -16,8 +16,8 @@
 <tr>
   <td><%= collection_select(:event, :unit_id, Unit.list, :id, :unit) %></td>
   <td><%= collection_select(:event, :state_id, State.all, :id, :state) %></td>
-  <td><%= collection_select(:event, :code_id, Code.list, :id, :formtext, {}, {:class => 'flexselect'} )%></td>
-  <td><%= collection_select(:event, :location_id, Location.list, :id, :formtext, {}, {:class => 'flexselect'} ) %></td>
+  <td><%= collection_select(:event, :code_id, Code.list, :id, :formtext, {include_blank: true}, {class: 'flexselect'} )%></td>
+  <td><%= collection_select(:event, :location_id, Location.list, :id, :formtext, {include_blank: true}, {class: 'flexselect'} ) %></td>
   <td><%= f.check_box :from_hq, {}, true, false %></td>
   <td><%= f.text_field :message %></td>
   <td><%= f.submit "Luo" %></td>

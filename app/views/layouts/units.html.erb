@@ -29,39 +29,49 @@
     function initializeGoogleMap() {
       if (GBrowserIsCompatible()) {
         var baseIcon = new GIcon(G_DEFAULT_ICON);
-        baseIcon.image = "/images/white.png";
+        baseIcon.image = "/images/cross-white.png";
         baseIcon.iconSize = new GSize(22, 22);
 
         var geocoder = new GClientGeocoder();
         var map = new GMap2(document.getElementById("map_canvas"));
         map.setCenter(new GLatLng(<%= @operation.latitude %>, <%= @operation.longitude %>), <%= @operation.zoom %>);
         map.setUIToDefault();
+<% i = 0 %>    
 <% for unit in @units %>
+<% i = i + 1 %>
+<% if unit.car %>
+<% prefix = "" %>
+<% else %>
+<% prefix = "cross-" %>
+<% end %>
+        var baseIcon<%=i%> = new GIcon(G_DEFAULT_ICON);
+        baseIcon<%=i%>.image = "/images/<%=prefix%>white.png";
+        baseIcon<%=i%>.iconSize = new GSize(22, 22);
 <% if unit.state != nil && ( unit.state.id == 1 || unit.state.id == 7 ) %>
-        baseIcon.image = "/images/green.png";
+        baseIcon<%=i%>.image = "/images/<%=prefix%>green.png";
 <% end %>
 <% if unit.state != nil && unit.state.id == 2 %>
-        baseIcon.image = "/images/yellow.png";
+        baseIcon<%=i%>.image = "/images/<%=prefix%>yellow.png";
 <% end %>
 <% if unit.state != nil && ( unit.state.id == 3 || unit.state.id == 4 ) %>
-        baseIcon.image = "/images/red.png";
+        baseIcon<%=i%>.image = "/images/<%=prefix%>red.png";
 <% end %>
 <% if unit.state != nil && ( unit.state.id == 5 || unit.state.id == 6 ) %>
-        baseIcon.image = "/images/pink.png";
+        baseIcon<%=i%>.image = "/images/<%=prefix%>pink.png";
 <% end %>
 <% if unit.state != nil && ( unit.state.id == 8 || unit.state.id == 9 ) %>
-        baseIcon.image = "/images/blue.png";
+        baseIcon<%=i%>.image = "/images/<%=prefix%>blue.png";
 <% end %>
 <% if unit.lat && unit.lon && ( ! unit.location || unit.updated_at > Time.now - 900 ) %>
         var pos = {lat: <%= unit.lat %>, lng: <%= unit.lon %>};
-        var marker = new GMarker(pos, {icon:baseIcon, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>"});
+        var marker = new GMarker(pos, {icon:baseIcon<%=i%>, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>"});
         map.addOverlay(marker);
 <% else %>
         geocoder.getLatLng(
           "<%= unit.location %>,<%= @operation.postfix %>,FI",
           function(point) {
             if (point) {
-              var marker = new GMarker(point, {icon:baseIcon, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>"});
+              var marker = new GMarker(point, {icon:baseIcon<%=i%>, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>"});
               map.addOverlay(marker);
             }
           }
@@ -107,6 +117,7 @@
 	  <li><%= link_to 'Operaatiot', operations_path %></li>
 	  <li><%= link_to 'Koodit', codes_path %></li>
 	</ul>
+<% if ! Rails.configuration.use_basic_auth %>
 	<ul class="nav navbar-nav pull-right">
 	  <% if user_signed_in? %>
 	  <li class="dropdown">
@@ -122,6 +133,7 @@
 	  <li><%= link_to 'Kirjaudu sisään', new_user_session_path %></li>
 	  <% end %>
 	</ul>
+<% end %>
       </div>
     </div>
   </nav>
@@ -143,6 +155,7 @@
 	  <li><%= link_to 'Operaatiot', operations_path %></li>
 	  <li><%= link_to 'Koodit', codes_path %></li>
 	</ul>
+<% if ! Rails.configuration.use_basic_auth %>
 	<ul class="nav navbar-nav pull-right">
 	  <% if user_signed_in? %>
 	  <li class="dropdown">
@@ -158,6 +171,7 @@
 	  <li><%= link_to 'Kirjaudu sisään', new_user_session_path %></li>
 	  <% end %>
 	</ul>
+<% end %>
       </div>
     </div>
   </nav>

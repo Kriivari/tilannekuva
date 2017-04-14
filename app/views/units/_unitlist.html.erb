@@ -1,47 +1,62 @@
 <h1>Tilannekuva</h1>
 
 <table>
-  <tr>
-    <th>Nimi</th>
-    <th>Vapaa</th>
-    <th>Matkalla</th>
-    <th>Kohteessa</th>
-    <th>Kuljettaa</th>
-    <th>Poissa</th>
-    <th>Sijainti</th>
-    <th>Koodi</th>
-    <th>Viesti</th>
-    <th>Aika</th>
-    <th>P&auml;ivitys</th>
-  </tr>
+  <colgroup>
+    <col style="width:100px"/>
+    <col style="width:50px"/>
+    <col style="width:70px"/>
+    <col style="width:85px"/>
+    <col style="width:70px"/>
+    <col style="width:50px"/>
+    <col style="width:150px"/>
+    <col style="width:50px"/>
+    <col style="width:200px"/>
+    <col style="width:50px"/>
+    <col style="width:50px"/>
+  </colgroup>
+  <tbody>
+    <tr>
+      <th>Nimi</th>
+      <th>Vapaa</th>
+      <th>Matkalla</th>
+      <th>Kohteessa</th>
+      <th>Kuljettaa</th>
+      <th>Poissa</th>
+      <th>Sijainti</th>
+      <th>Koodi</th>
+      <th>Viesti</th>
+      <th>Aika</th>
+      <th>Päivitys</th>
+    </tr>
 
 <% for unit in @units %>
-  <tr>
+    <tr>
 <% if unit.details %>
-    <td title="<%= unit.details %>"><%= unit.unit %></td>
+      <td title="<%= unit.details %>"><%= unit.unit %></td>
 <% else %>
-    <td><%= unit.unit %></td>
+      <td><%= unit.unit %></td>
 <% end %>
-    <td><div style="background-color:Lime"><%= unit.isfree %></div></td>
-    <td><div style="background-color:Red"><%= unit.isenroute %></div></td>
-    <td><div style="background-color:Red"><%= unit.isworking %></div></td>
-    <td><div style="background-color:Red"><%= unit.istransporting %></div></td>
-    <td><div style="background-color:Black; color:White"><%= unit.isaway %></div></td>
+      <td><div style="background-color:Lime"><%= unit.isfree %></div></td>
+      <td><div style="background-color:Red"><%= unit.isenroute %></div></td>
+      <td><div style="background-color:Red"><%= unit.isworking %></div></td>
+      <td><div style="background-color:Red"><%= unit.istransporting %></div></td>
+      <td><div style="background-color:Black; color:White"><%= unit.isaway %></div></td>
 <% if unit.location != nil %>
-<td title="<%= unit.location %>"><%= unit.location.short %></td>
+      <td title="<%= unit.location %>"><%= unit.location.short %></td>
 <% else %>
-<td></td>
+      <td></td>
 <% end %>
 <% if unit.currentcode != nil && unit.currentcode.explanation != nil %>
-<td title="<%= unit.currentcode.explanation %>"><%= unit.currentcode %></td>
+      <td title="<%= unit.currentcode.explanation %>"><%= unit.currentcode %></td>
 <% else %>
-<td><%= unit.currentcode %></td>
+      <td><%= unit.currentcode %></td>
 <% end %>
-    <td><%= unit.currentmessage %></td>
-    <td><%= unit.currenttime('%H.%M') %></td>
-    <td><%= unit.updated('%H.%M') %></td>
-  </tr>
-<% end %>
+      <td><%= unit.currentmessage %></td>
+      <td><%= unit.currenttime('%H.%M') %></td>
+      <td><%= unit.updated('%H.%M') %></td>
+    </tr>
+  <% end %>
+  </tbody>
 </table>
 <% if @queue != nil && @queue.size > 0 %>
 <h2>Jono</h2>

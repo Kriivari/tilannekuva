@@ -13,7 +13,7 @@ class Location < ActiveRecord::Base
     if self.shortcode && self.shortcode.length > 0
       return self.shortcode
     else
-      return self.location.to_s[0,10]
+      return self.location.to_s[0,20]
     end
   end
 

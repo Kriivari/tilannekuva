@@ -189,6 +189,6 @@ class UnitsController < ApplicationController
 
   private
   def unit_params
-    params.require(:unit).permit(:unit, :phone, :details, :imei)
+    params.require(:unit).permit(:unit, :phone, :details, :imei, :car)
   end
 end
