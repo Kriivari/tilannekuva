@@ -10,18 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170412133720) do
+ActiveRecord::Schema.define(version: 20170412190000) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
-  create_table "codes", force: :cascade do |t|
+  create_table "codes", id: nil, force: :cascade do |t|
     t.text "code"
     t.text "explanation"
     t.text "ensihoito"
+    t.index ["id"], name: "sqlite_autoindex_codes_1", unique: true
   end
 
-  create_table "events", force: :cascade do |t|
+  create_table "events", id: nil, force: :cascade do |t|
     t.integer  "code_id"
     t.integer  "location_id"
     t.integer  "state_id"
@@ -31,17 +29,20 @@ ActiveRecord::Schema.define(version: 20170412133720) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "archived"
+    t.integer  "operation_id"
+    t.index ["id"], name: "sqlite_autoindex_events_1", unique: true
   end
 
-  create_table "locations", force: :cascade do |t|
+  create_table "locations", id: nil, force: :cascade do |t|
     t.text    "location"
     t.text    "shortcode"
     t.integer "type_id"
     t.integer "x"
     t.integer "y"
+    t.index ["id"], name: "sqlite_autoindex_locations_1", unique: true
   end
 
-  create_table "operations", force: :cascade do |t|
+  create_table "operations", id: nil, force: :cascade do |t|
     t.text    "name"
     t.text    "latitude"
     t.text    "longitude"
@@ -53,28 +54,30 @@ ActiveRecord::Schema.define(version: 20170412133720) do
     t.text    "smsurl"
     t.text    "tetraport"
     t.text    "map"
+    t.index ["id"], name: "sqlite_autoindex_operations_1", unique: true
   end
 
-  create_table "states", force: :cascade do |t|
+  create_table "states", id: nil, force: :cascade do |t|
     t.text "state"
     t.text "explanation"
+    t.index ["id"], name: "sqlite_autoindex_states_1", unique: true
   end
 
-  create_table "types", force: :cascade do |t|
+  create_table "types", id: nil, force: :cascade do |t|
     t.text "name"
+    t.index ["id"], name: "sqlite_autoindex_types_1", unique: true
   end
 
-  create_table "units", force: :cascade do |t|
+  create_table "units", id: nil, force: :cascade do |t|
     t.text     "unit"
     t.integer  "state_id"
     t.integer  "location_id"
     t.integer  "listorder",   default: 1
     t.text     "phone"
     t.text     "details"
-    t.text     "imei"
-    t.float    "lat"
-    t.float    "lon"
+    t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["id"], name: "sqlite_autoindex_units_1", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -83,22 +86,11 @@ ActiveRecord::Schema.define(version: 20170412133720) do
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+    t.integer  "operation_id"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "events", "codes", name: "events_code_id_fkey"
-  add_foreign_key "events", "locations", name: "events_location_id_fkey"
-  add_foreign_key "events", "states", name: "events_state_id_fkey"
-  add_foreign_key "events", "units", name: "events_unit_id_fkey"
-  add_foreign_key "locations", "types", name: "locations_type_id_fkey"
-  add_foreign_key "units", "locations", name: "units_location_id_fkey"
-  add_foreign_key "units", "states", name: "units_state_id_fkey"
 end
