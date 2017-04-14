@@ -58,7 +58,7 @@
         map.addOverlay(marker);
 <% else %>
         geocoder.getLatLng(
-          "<%= unit.location %><%= @operation.postfix %>",
+          "<%= unit.location %>,<%= @operation.postfix %>,FI",
           function(point) {
             if (point) {
               var marker = new GMarker(point, {icon:baseIcon, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>"});
@@ -71,7 +71,7 @@
 <% if @queue %>
 <% for queue in @queue %>
         geocoder.getLatLng(
-          "<%= queue.location %><%= @operation.postfix %>",
+          "<%= queue.location %>,<%= @operation.postfix %>,FI",
           function(point) {
             if (point) {
               baseIcon.image = "/images/queue.png";
@@ -104,6 +104,7 @@
 	  <li><%= link_to 'Uusi tapahtuma', new_event_path %></li>
 	  <li><%= link_to 'Yksiköiden hallinta', units_available_path %></li>
 	  <li><%= link_to 'Uusi yksikkö', new_unit_path %></li>
+	  <li><%= link_to 'Operaatiot', operations_path %></li>
 	  <li><%= link_to 'Koodit', codes_path %></li>
 	</ul>
 	<ul class="nav navbar-nav pull-right">
@@ -139,6 +140,7 @@
 	  <li><%= link_to 'Uusi tapahtuma', new_event_path %></li>
 	  <li><%= link_to 'Yksiköiden hallinta', units_available_path %></li>
 	  <li><%= link_to 'Uusi yksikkö', new_unit_path %></li>
+	  <li><%= link_to 'Operaatiot', operations_path %></li>
 	  <li><%= link_to 'Koodit', codes_path %></li>
 	</ul>
 	<ul class="nav navbar-nav pull-right">
