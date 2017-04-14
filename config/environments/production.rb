@@ -61,4 +61,8 @@ Tilannekuva::Application.configure do
   config.eager_load = false
 
   config.action_mailer.default_url_options = { host: 'tilannekuva.spr-tapiola.org', port: 80 }
+
+  config.use_basic_auth = true
+  config.basic_auth_user = "risti"
+  config.basic_auth_password = "sparra"
 end
