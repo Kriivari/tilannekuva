@@ -1,10 +1,10 @@
-create table operations (id serial primary key, name text, latitude text, longitude text, zoom text, width text, height text, postfix text, current boolean, smsurl text, tetraport text, map text);
-create table types (id serial primary key, name text);
-create table codes (id serial primary key, code text, explanation text, ensihoito text);
-create table states (id serial primary key, state text, explanation text);
-create table locations (id serial primary key, location text, shortcode text, type_id integer references types(id), x integer, y integer);
-create table units (id serial primary key, unit text, state_id integer references states(id), location_id integer references locations(id), listorder integer default 1, phone text, imei text, details text, created_at timestamp, updated_at timestamp);
-create table events (id serial primary key, code_id integer references codes(id), location_id integer references locations(id), state_id integer references states(id), unit_id integer references units(id), from_hq boolean, message text, created_at timestamp, updated_at timestamp, archived timestamp);
+create table operations (id integer primary key, name text, latitude text, longitude text, zoom text, width text, height text, postfix text, current boolean, smsurl text, tetraport text, map text);
+create table types (id integer primary key, name text);
+create table codes (id integer primary key, code text, explanation text, ensihoito text);
+create table states (id integer primary key, state text, explanation text);
+create table locations (id integer primary key, location text, shortcode text, type_id integer references types(id), x integer, y integer);
+create table units (id integer primary key, unit text, state_id integer references states(id), location_id integer references locations(id), listorder integer default 1, phone text, imei text, lat double, lon double, details text, created_at timestamp, updated_at timestamp);
+create table events (id integer primary key, code_id integer references codes(id), location_id integer references locations(id), state_id integer references states(id), unit_id integer references units(id), from_hq boolean, message text, created_at timestamp, updated_at timestamp, archived timestamp);
 
 insert into units (id,unit,listorder) values (-1,'Jono',0);
 insert into units (id,unit,listorder) values (-2,'Johto',2);

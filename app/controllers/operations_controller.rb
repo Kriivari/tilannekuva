@@ -1,5 +1,5 @@
 class OperationsController < ApplicationController
-  before_filter :authenticate
+  before_action :authenticate
 
   # GET /operations
   # GET /operations.xml
@@ -91,6 +91,6 @@ class OperationsController < ApplicationController
 
   private
   def operation_params
-    params.require(:operation).permit(:name, :latitude, :longitude, :zoom, :width, :height, :postfix, :map, :smsurl, :tetraport)
+    params.require(:operation).permit(:name, :latitude, :longitude, :zoom, :width, :height, :postfix, :map, :smsurl, :smstoken, :smsfrom, :tetraport)
   end
 end

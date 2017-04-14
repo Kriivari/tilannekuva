@@ -1,4 +1,4 @@
-<h1>Editing unit</h1>
+<h1>Yksikön muokkaus</h1>
 
 <%= form_for(@unit) do |f| %>
 <% if @unit.errors.any? %>
@@ -26,13 +26,16 @@
     <%= f.text_field :imei %>
   </p>
   <p>
+    <%= f.label :car, 'Ajoneuvo' %>:
+    <%= f.check_box :car %>
+  </p>
+  <p>
     <%= f.label :details, 'Lisatiedot' %>:
     <%= f.text_field :details %>
   </p>
   <p>
-    <%= f.submit "Update" %>
+    <%= f.submit "Talleta" %>
   </p>
 <% end %>
+<%= button_to "Poista yksikkö", {action: "destroy", id: @unit.id }, method: :delete, data: { confirm: "Oletko varma?" } %>
 
-<%= link_to 'Show', @unit %> |
-<%= link_to 'Back', units_path %>

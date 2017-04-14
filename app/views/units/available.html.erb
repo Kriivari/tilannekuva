@@ -1,6 +1,6 @@
 <h1>Käytettävissä olevat yksiköt</h1>
 
-<form action="/units/changeavailability/1">
+<form action="/units/changeavailability">
 <p><input type="submit" value="Muuta" /></p>
 <table>
   <tr>
@@ -21,3 +21,5 @@ checked
 <% end %>
 </table>
 </form>
+<br />
+<p><%= link_to "Luo uusi yksikkö", new_unit_path %></p>

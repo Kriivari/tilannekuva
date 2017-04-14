@@ -15,7 +15,7 @@
     <td><%= f.text_field :name %></td>
   </tr>
   <tr>
-    <td colspan="2"><b>T&auml;yt&auml; seuraavat jos haluat Googlen kartan.</b></td>
+    <td colspan="2"><b>Täytä seuraavat jos haluat Googlen kartan.</b></td>
   </tr>
   <tr>
     <td><%= f.label :latitude, 'Latitude' %>:</td>
@@ -42,21 +42,29 @@
     <td><%= f.text_field :postfix %></td>
   </tr>
   <tr>
-    <td colspan="2"><b>T&auml;yt&auml; seuraava jos haluat muun kartan.</b></td>
+    <td colspan="2"><b>Täytä seuraava jos haluat muun kartan.</b></td>
   </tr>
   <tr>
     <td><%= f.label :map, 'Karttapohjan URL' %>:</td>
     <td><%= f.text_field :map %></td>
   </tr>
   <tr>
-    <td colspan="2"><b>T&auml;yt&auml; seuraava jos haluat tekstiviestit.</b></td>
+    <td colspan="2"><b>Täytä seuraavat jos haluat tekstiviestit. (ei toimi)</b></td>
   </tr>
   <tr>
-    <td><%= f.label :smsurl, 'SMS-palvelun prefix' %>:</td>
+    <td><%= f.label :smsurl, 'SMS-palvelun tili' %>:</td>
     <td><%= f.text_field :smsurl %></td>
   </tr>
   <tr>
-    <td colspan="2"><b>T&auml;yt&auml; seuraava jos kytkettyn&auml; on TETRA-puhelin.</b></td>
+    <td><%= f.label :smstoken, 'SMS-palvelun salasana' %>:</td>
+    <td><%= f.text_field :smstoken %></td>
+  </tr>
+  <p>
+    <%= f.label :smsfrom, 'SMS-palvelun lähtönumero' %>:
+    <%= f.text_field :smsfrom %>
+  </p>
+  <tr>
+    <td colspan="2"><b>Täytä seuraava jos kytkettynä on TETRA-puhelin. (ei toimi)</b></td>
   </tr>
   <tr>
     <td><%= f.label :tetraport, 'TETRA-puhelimen portti' %>:</td>

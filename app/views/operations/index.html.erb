@@ -1,4 +1,4 @@
-<h1>Listing operations</h1>
+<h1>Operaatiot</h1>
 
 <table>
   <tr>
@@ -28,13 +28,12 @@
     <td><%= operation.map %></td>
     <td><%= operation.smsurl %></td>
     <td><%= operation.tetraport %></td>
-    <td><%= link_to 'Show', operation %></td>
-    <td><%= link_to 'Edit', edit_operation_path(operation) %></td>
-    <td><%= link_to 'Destroy', operation, :confirm => 'Are you sure?', :method => :delete %></td>
+    <td><%= link_to 'Muokkaa', edit_operation_path(operation) %></td>
+    <td><%= link_to 'Poista', operation, :confirm => 'Oletko varma?', :method => :delete %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New operation', new_operation_path %>
+<%= link_to 'Uusi operaatio', new_operation_path %>

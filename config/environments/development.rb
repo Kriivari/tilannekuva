@@ -1,5 +1,7 @@
 Tilannekuva::Application.configure do
-  # Settings specified here will take precedence over those in config/application.rb
+  config.use_basic_auth = true
+  config.basic_auth_user = "risti"
+  config.basic_auth_password = "sparra"
 
   # In the development environment your application's code is reloaded on
   # every request.  This slows down response time but is perfect for development
@@ -25,4 +27,7 @@ Tilannekuva::Application.configure do
   config.eager_load = false
 
   config.serve_static_assets = true
+
+  config.action_mailer.default_url_options = { host: 'tilannekuva.spr-tapiola.org', port: 80 }
+
 end

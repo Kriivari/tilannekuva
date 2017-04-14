@@ -1,5 +1,5 @@
 class StatesController < ApplicationController
-  before_filter :authenticate
+  before_action :authenticate
 
   # GET /states
   # GET /states.xml

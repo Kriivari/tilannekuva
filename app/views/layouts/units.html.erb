@@ -1,19 +1,13 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-<% if controller.action_name == 'view' %>
-  <meta http-equiv="refresh" content="15" />
-<% end %>
-  <title>Yksiköt: <%= controller.action_name %></title>
-  <%= stylesheet_link_tag 'scaffold' %>
+  <title>Tilannekuva</title>
+  <%= stylesheet_link_tag    "application" %>
   <%= stylesheet_link_tag 'flexselect' %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
-<% if @unit %>
-<%= yield  %>
+<% if controller.action_name == 'view' %>
+  <meta http-equiv="refresh" content="15" />
 <% end %>
 <% if @operation && @operation.zoom != nil && @operation.zoom.length > 0 %>
   <script type="text/javascript" charset="utf-8" src="/javascripts/OpenLayers/OpenLayers.js"></script>
@@ -35,39 +29,49 @@
     function initializeGoogleMap() {
       if (GBrowserIsCompatible()) {
         var baseIcon = new GIcon(G_DEFAULT_ICON);
-        baseIcon.image = "/images/white.png";
+        baseIcon.image = "/images/cross-white.png";
         baseIcon.iconSize = new GSize(22, 22);
 
         var geocoder = new GClientGeocoder();
         var map = new GMap2(document.getElementById("map_canvas"));
         map.setCenter(new GLatLng(<%= @operation.latitude %>, <%= @operation.longitude %>), <%= @operation.zoom %>);
         map.setUIToDefault();
+<% i = 0 %>    
 <% for unit in @units %>
+<% i = i + 1 %>
+<% if unit.car %>
+<% prefix = "" %>
+<% else %>
+<% prefix = "cross-" %>
+<% end %>
+        var baseIcon<%=i%> = new GIcon(G_DEFAULT_ICON);
+        baseIcon<%=i%>.image = "/images/<%=prefix%>white.png";
+        baseIcon<%=i%>.iconSize = new GSize(22, 22);
 <% if unit.state != nil && ( unit.state.id == 1 || unit.state.id == 7 ) %>
-        baseIcon.image = "/images/green.png";
+        baseIcon<%=i%>.image = "/images/<%=prefix%>green.png";
 <% end %>
 <% if unit.state != nil && unit.state.id == 2 %>
-        baseIcon.image = "/images/yellow.png";
+        baseIcon<%=i%>.image = "/images/<%=prefix%>yellow.png";
 <% end %>
 <% if unit.state != nil && ( unit.state.id == 3 || unit.state.id == 4 ) %>
-        baseIcon.image = "/images/red.png";
+        baseIcon<%=i%>.image = "/images/<%=prefix%>red.png";
 <% end %>
 <% if unit.state != nil && ( unit.state.id == 5 || unit.state.id == 6 ) %>
-        baseIcon.image = "/images/pink.png";
+        baseIcon<%=i%>.image = "/images/<%=prefix%>pink.png";
 <% end %>
 <% if unit.state != nil && ( unit.state.id == 8 || unit.state.id == 9 ) %>
-        baseIcon.image = "/images/blue.png";
+        baseIcon<%=i%>.image = "/images/<%=prefix%>blue.png";
 <% end %>
 <% if unit.lat && unit.lon && ( ! unit.location || unit.updated_at > Time.now - 900 ) %>
         var pos = {lat: <%= unit.lat %>, lng: <%= unit.lon %>};
-        var marker = new GMarker(pos, {icon:baseIcon, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>"});
+        var marker = new GMarker(pos, {icon:baseIcon<%=i%>, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>"});
         map.addOverlay(marker);
 <% else %>
         geocoder.getLatLng(
-          "<%= unit.location %><%= @operation.postfix %>",
+          "<%= unit.location %>,<%= @operation.postfix %>,FI",
           function(point) {
             if (point) {
-              var marker = new GMarker(point, {icon:baseIcon, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>"});
+              var marker = new GMarker(point, {icon:baseIcon<%=i%>, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>"});
               map.addOverlay(marker);
             }
           }
@@ -77,7 +81,7 @@
 <% if @queue %>
 <% for queue in @queue %>
         geocoder.getLatLng(
-          "<%= queue.location %><%= @operation.postfix %>",
+          "<%= queue.location %>,<%= @operation.postfix %>,FI",
           function(point) {
             if (point) {
               baseIcon.image = "/images/queue.png";
@@ -98,9 +102,79 @@
 
 <% if @operation && @operation.zoom && @operation.zoom.length > 0 %>
 <body onload="initialize()" onunload="unload()">
+  <nav class="navbar navbar-inverse">
+    <div class="container">
+      <div class="navbar-header">
+	<%= link_to 'Tilannekuva', units_view_path, class: 'navbar-brand' %>
+      </div>
+      <div id="navbar">
+	<ul class="nav navbar-nav">
+	  <li><%= link_to 'Tilannekuva syötöllä', units_path %></li>
+	  <li><%= link_to 'Tapahtumat', events_path %></li>
+	  <li><%= link_to 'Uusi tapahtuma', new_event_path %></li>
+	  <li><%= link_to 'Yksiköiden hallinta', units_available_path %></li>
+	  <li><%= link_to 'Uusi yksikkö', new_unit_path %></li>
+	  <li><%= link_to 'Operaatiot', operations_path %></li>
+	  <li><%= link_to 'Koodit', codes_path %></li>
+	</ul>
+<% if ! Rails.configuration.use_basic_auth %>
+	<ul class="nav navbar-nav pull-right">
+	  <% if user_signed_in? %>
+	  <li class="dropdown">
+	    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+	      <%= current_user.email %>
+	      <span class="caret"></span>
+	    </a>
+	    <ul class="dropdown-menu" role="menu">
+	      <li><%= link_to 'Kirjaudu ulos', destroy_user_session_path, method: :delete %></li>
+	    </ul>
+	  </li>
+	  <% else %>
+	  <li><%= link_to 'Kirjaudu sisään', new_user_session_path %></li>
+	  <% end %>
+	</ul>
+<% end %>
+      </div>
+    </div>
+  </nav>
     <div id="map_canvas" style="width: <%= @operation.width %>px; height: <%= @operation.height %>px"></div>
 <% else %>
 <body>
+  <nav class="navbar navbar-inverse">
+    <div class="container">
+      <div class="navbar-header">
+	<%= link_to 'Tilannekuva', units_view_path, class: 'navbar-brand' %>
+      </div>
+      <div id="navbar">
+	<ul class="nav navbar-nav">
+	  <li><%= link_to 'Tilannekuva syötöllä', units_path %></li>
+	  <li><%= link_to 'Tapahtumat', events_path %></li>
+	  <li><%= link_to 'Uusi tapahtuma', new_event_path %></li>
+	  <li><%= link_to 'Yksiköiden hallinta', units_available_path %></li>
+	  <li><%= link_to 'Uusi yksikkö', new_unit_path %></li>
+	  <li><%= link_to 'Operaatiot', operations_path %></li>
+	  <li><%= link_to 'Koodit', codes_path %></li>
+	</ul>
+<% if ! Rails.configuration.use_basic_auth %>
+	<ul class="nav navbar-nav pull-right">
+	  <% if user_signed_in? %>
+	  <li class="dropdown">
+	    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+	      <%= current_user.email %>
+	      <span class="caret"></span>
+	    </a>
+	    <ul class="dropdown-menu" role="menu">
+	      <li><%= link_to 'Kirjaudu ulos', destroy_user_session_path, method: :delete %></li>
+	    </ul>
+	  </li>
+	  <% else %>
+	  <li><%= link_to 'Kirjaudu sisään', new_user_session_path %></li>
+	  <% end %>
+	</ul>
+<% end %>
+      </div>
+    </div>
+  </nav>
 <% if @operation && @operation.map && @operation.map.length > 0 %>
 <div id="image"><img width="<%= @operation.width %>" height="<%= @operation.height %>" src="<%= @operation.map %>" />
 <% for unit in @units %>
@@ -113,18 +187,13 @@
 <% end %>
 
 <p style="color: green"><%= flash["notice"] %></p>
-<% if ! @unit %>
-<%= yield  %>
+  <%= yield :top_content %>
 
-<p>
-<%= link_to 'Tilannekuva syötöllä', units_path %>
-<%= link_to 'Tilannekuva', '/units/view/1' %>
-<%= link_to 'Tapahtumat', events_path %>
-<%= link_to 'Uusi tapahtuma', new_event_path %>
-<%= link_to 'Yksiköiden hallinta', '/units/available/1' %>
-<%= link_to 'Uusi yksikkö', new_unit_path %>
-<%= link_to 'Koodit', codes_path %>
-</p>
-<% end %>
+  <div class="container">
+    <h1><%= yield :header %></h1>
+    <%= yield %>
+  </div>
+
+
 </body>
 </html>

@@ -1,14 +1,14 @@
 class CodesController < ApplicationController
-  before_filter :authenticate
+  before_action :authenticate
 
   # GET /codes
   # GET /codes.xml
   def index
     @codes = []
     if params[:sort]
-      codes = Code.where(:order => "explanation").all
+      codes = Code.order("explanation").all
     else
-      codes = Code.where(:order => "code").all
+      codes = Code.order("code").all
     end
     previous = ""
     prevexplanation = ""

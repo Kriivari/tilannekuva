@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
-  before_filter :authenticate
+  before_action :authenticate
 
   # GET /events
   # GET /events.xml
@@ -69,7 +69,7 @@ class EventsController < ApplicationController
     @event = Event.new(event_params)
     current = @event.unit.get_current_event
     locationtext = params[:new_event][:location_id]
-    if @event.state.id == 1 || @event.state.id == 9
+    if @event.unit.id != -1 && (@event.state.id == 1 || @event.state.id == 9)
       @event.code = nil
     end
     if current != nil
@@ -77,19 +77,19 @@ class EventsController < ApplicationController
         @event.state = current.state
       end
       if @event.state.id > 1 && @event.state.id < 9
-        if @event.code.id == 0
+        if @event.code == nil || @event.code.id == 0
           @event.code = current.code
         end
         if @event.message == nil || @event.message.length == 0
           @event.message = current.message
         end
       end
-      if @event.location != nil && @event.location.id == 0 && locationtext == 'Ei muutosta'
+      if locationtext == nil || locationtext.length == 0
         @event.location = current.location
       end
     end
 
-    if ! @event.location || ( @event.location.id == 0 && locationtext != 'Ei muutosta' )
+    if ! @event.location || ( @event.location.id == 0 && locationtext && locationtext.length > 0 )
       location = Location.create
       location.location = locationtext
       location.type_id = 0
@@ -128,21 +128,20 @@ class EventsController < ApplicationController
         @event.unit.state = @event.state
         @event.unit.location = @event.location
         @event.unit.save
-        smsurl = Operation.where(current: t).first.smsurl
-        tetraport = Operation.where(current: t).first.smstetraport
-        if @event.unit.phone && smsurl
-          require "net/http"
+        operation = Operation.where(current: true).take
+        if operation && operation.smsurl && @event.unit.phone
           begin
-            result = Net::HTTP.get(URI.parse(URI.escape(smsurl + @event.unit.phone + "&text=" + @event.unit.unit + ": " + @event.code.code + " (" + @event.code.explanation + ") " + @event.location.location + "; " + @event.message)))
-            logger.info("Sent message to " + @event.unit.phone + ": " + result)
+            client = Twilio::REST::Client.new operation.smsurl, operation.smstoken
+            number = client.account.messages.create({from: operation.smsfrom, to: @event.unit.phone, body: @event.unit.unit + ": " + @event.code.code + " (" + @event.code.explanation + ") " + @event.location.location + "; " + @event.message})
+            logger.info("Sent message to " + @event.unit.phone)
           rescue Exception
             logger.info("Not able to send SMS")
           end
         end
-        if @event.unit.phone && tetraport != nil && tetraport.length > 0
+        if operation && operation.tetraport && operation.tetraport.length > 0 && @event.unit.phone
           require "serialport"
           begin
-	    serial = SerialPort.new tetraport, 9600
+	    serial = SerialPort.new operation.tetraport, 9600
 	    serial.write "AT+CTSDS=13,0\r\n"
 	    serial.read
 	    serial.write "AT+CMGS=\"" + @event.unit.phone + "\",16\r\n"

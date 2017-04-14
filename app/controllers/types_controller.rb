@@ -1,5 +1,5 @@
 class TypesController < ApplicationController
-  before_filter :authenticate
+  before_action :authenticate
 
   # GET /types
   # GET /types.xml
