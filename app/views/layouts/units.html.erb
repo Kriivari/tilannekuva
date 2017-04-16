@@ -10,32 +10,17 @@
   <meta http-equiv="refresh" content="15" />
 <% end %>
 <% if @operation && @operation.zoom != nil && @operation.zoom.length > 0 %>
-  <script type="text/javascript" charset="utf-8" src="/javascripts/OpenLayers/OpenLayers.js"></script>
-  <script src="http://maps.google.com/maps?file=api&amp;v=3&amp;sensor=false&amp;key=AIzaSyD-Ssj0qJIl5c15Dm9asThaBlnk1JyqDNA" type="text/javascript"></script>
+  <script async defer src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD-Ssj0qJIl5c15Dm9asThaBlnk1JyqDNA&callback=initMap" type="text/javascript"></script>
   <script type="text/javascript">
-    var mapstraction;
+    var map;
     var geocoder;
     var name;
     var details;
 
-    function initialize() {
-      initializeGoogleMap();
-    }
-
-    function unload() {
-      GUnload();
-    }
-
-    function initializeGoogleMap() {
-      if (GBrowserIsCompatible()) {
-        var baseIcon = new GIcon(G_DEFAULT_ICON);
-        baseIcon.image = "/images/cross-white.png";
-        baseIcon.iconSize = new GSize(22, 22);
-
-        var geocoder = new GClientGeocoder();
-        var map = new GMap2(document.getElementById("map_canvas"));
-        map.setCenter(new GLatLng(<%= @operation.latitude %>, <%= @operation.longitude %>), <%= @operation.zoom %>);
-        map.setUIToDefault();
+    function initMap() {
+        geocoder = new google.maps.Geocoder();
+        var latlng = new google.maps.LatLng( "<%= @operation.latitude %>", "<%= @operation.longitude %>" );
+        map = new google.maps.Map(document.getElementById("map_canvas"), {'zoom': <%= @operation.zoom %>, 'center': latlng });
 <% i = 0 %>    
 <% for unit in @units %>
 <% i = i + 1 %>
@@ -44,56 +29,54 @@
 <% else %>
 <% prefix = "cross-" %>
 <% end %>
-        var baseIcon<%=i%> = new GIcon(G_DEFAULT_ICON);
-        baseIcon<%=i%>.image = "/images/<%=prefix%>white.png";
-        baseIcon<%=i%>.iconSize = new GSize(22, 22);
+        var image = "/images/<%=prefix%>white.png";
 <% if unit.state != nil && ( unit.state.id == 1 || unit.state.id == 7 ) %>
-        baseIcon<%=i%>.image = "/images/<%=prefix%>green.png";
+        image = "/images/<%=prefix%>green.png";
 <% end %>
 <% if unit.state != nil && unit.state.id == 2 %>
-        baseIcon<%=i%>.image = "/images/<%=prefix%>yellow.png";
+        image = "/images/<%=prefix%>yellow.png";
 <% end %>
 <% if unit.state != nil && ( unit.state.id == 3 || unit.state.id == 4 ) %>
-        baseIcon<%=i%>.image = "/images/<%=prefix%>red.png";
+        image = "/images/<%=prefix%>red.png";
 <% end %>
 <% if unit.state != nil && ( unit.state.id == 5 || unit.state.id == 6 ) %>
-        baseIcon<%=i%>.image = "/images/<%=prefix%>pink.png";
+        image = "/images/<%=prefix%>pink.png";
 <% end %>
 <% if unit.state != nil && ( unit.state.id == 8 || unit.state.id == 9 ) %>
-        baseIcon<%=i%>.image = "/images/<%=prefix%>blue.png";
+        image = "/images/<%=prefix%>blue.png";
 <% end %>
 <% if unit.lat && unit.lon && ( ! unit.location || unit.updated_at > Time.now - 900 ) %>
-        var pos = {lat: <%= unit.lat %>, lng: <%= unit.lon %>};
-        var marker = new GMarker(pos, {icon:baseIcon<%=i%>, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>"});
-        map.addOverlay(marker);
+        var pos = new google.maps.LatLng( <%= unit.lat %>, <%= unit.lon %>);
+        var marker = new google.maps.Marker({position: pos, draggable: true, icon: image, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>", id: "<%=unit.id%>", map: map });
+        google.maps.event.addListener(marker, 'dragend', function(event) {
+          var lat = event.latLng.lat();
+          var lon = event.latLng.lng();
+          $.post( "/events/drag", { id: marker.id, lat: event.latLng.lat(), lon: event.latLng.lng() } );
+        });
 <% else %>
-        geocoder.getLatLng(
-          "<%= unit.location %>,<%= @operation.postfix %>,FI",
-          function(point) {
-            if (point) {
-              var marker = new GMarker(point, {icon:baseIcon<%=i%>, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>"});
-              map.addOverlay(marker);
-            }
-          }
-        );
+        geocoder.geocode({'address': "<%= unit.location %>,<%= @operation.postfix %>,FI"},
+                          function(results, status) {
+                            if( status == google.maps.GeocoderStatus.OK ) {
+                              var marker = new google.maps.Marker({position: results[0].geometry.location, draggable: true, icon: image, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>", id: "<%=unit.id%>", map: map });
+                              google.maps.event.addListener(marker, 'dragend', function(event) {
+                                var lat = event.latLng.lat();
+                                var lon = event.latLng.lng();
+                                $.post( "/events/drag", { id: marker.id, lat: event.latLng.lat(), lon: event.latLng.lng() } );
+                              });
+                           }
+                         });
 <% end %>
 <% end %>
 <% if @queue %>
 <% for queue in @queue %>
-        geocoder.getLatLng(
-          "<%= queue.location %>,<%= @operation.postfix %>,FI",
-          function(point) {
-            if (point) {
-              baseIcon.image = "/images/queue.png";
-              var marker = new GMarker(point, {icon:baseIcon, title:"<%= queue.message %> <%= queue.code %>"});
-              map.addOverlay(marker);
-            }
-          }
-        );
+        geocoder.geocode({'address': "<%= queue.location %>,<%= @operation.postfix %>,FI"},
+                         function(results,status) {
+                           if (status == google.maps.GeocoderStatus.OK) {
+                             var marker = new google.maps.Marker({position: results[0].geometry.location, icon: "/images/queue.png", title:"<%= queue.message %> <%= queue.code %>", map: map});
+                           }
+                         });
 <% end %>
 <% end %>
-
-      }
     }
 
   </script>
@@ -101,7 +84,7 @@
 </head>
 
 <% if @operation && @operation.zoom && @operation.zoom.length > 0 %>
-<body onload="initialize()" onunload="unload()">
+<body>
   <nav class="navbar navbar-inverse">
     <div class="container">
       <div class="navbar-header">
