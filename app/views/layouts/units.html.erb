@@ -53,7 +53,7 @@
         google.maps.event.addListener(marker, 'dragend', function(event) {
           var lat = event.latLng.lat();
           var lon = event.latLng.lng();
-          $.post( "/events/drag", { id: marker.id, lat: event.latLng.lat(), lon: event.latLng.lng() } );
+          $.post( "/events/drag", { id: <%= unit.id %>, lat: event.latLng.lat(), lon: event.latLng.lng() } );
         });
 <% else %>
         geocoder.geocode({'address': "<%= unit.location %>,<%= @operation.postfix %>,FI"},
@@ -63,7 +63,7 @@
                               google.maps.event.addListener(marker, 'dragend', function(event) {
                                 var lat = event.latLng.lat();
                                 var lon = event.latLng.lng();
-                                $.post( "/events/drag", { id: marker.id, lat: event.latLng.lat(), lon: event.latLng.lng() } );
+                                $.post( "/events/drag", { id: <%= unit.id%>, lat: event.latLng.lat(), lon: event.latLng.lng() } );
                               });
                            }
                          });
