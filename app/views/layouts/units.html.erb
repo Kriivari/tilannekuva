@@ -21,6 +21,8 @@
         geocoder = new google.maps.Geocoder();
         var latlng = new google.maps.LatLng( "<%= @operation.latitude %>", "<%= @operation.longitude %>" );
         map = new google.maps.Map(document.getElementById("map_canvas"), {'zoom': <%= @operation.zoom %>, 'center': latlng });
+        var marker;
+        var pos;
 <% i = 0 %>    
 <% for unit in @units %>
 <% i = i + 1 %>
@@ -46,8 +48,8 @@
         image = "/images/<%=prefix%>blue.png";
 <% end %>
 <% if unit.lat && unit.lon && ( ! unit.location || unit.updated_at > Time.now - 900 ) %>
-        var pos = new google.maps.LatLng( <%= unit.lat %>, <%= unit.lon %>);
-        var marker = new google.maps.Marker({position: pos, draggable: true, icon: image, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>", id: "<%=unit.id%>", map: map });
+        pos = new google.maps.LatLng( <%= unit.lat %>, <%= unit.lon %>);
+        marker = new google.maps.Marker({position: pos, draggable: true, icon: image, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>", id: "<%=unit.id%>", map: map });
         google.maps.event.addListener(marker, 'dragend', function(event) {
           var lat = event.latLng.lat();
           var lon = event.latLng.lng();
