@@ -6,6 +6,7 @@ Tilannekuva::Application.routes.draw do
   get 'units/available' => 'units#available'
   get 'units/changeavailability' => 'units#changeavailability'
   get 'units/unit' => 'units#unit'
+  post 'events/drag' => 'events#drag'
 
   resources :operations
   resources :events

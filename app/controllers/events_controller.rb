@@ -174,6 +174,17 @@ class EventsController < ApplicationController
     end
   end
 
+  def drag
+    unit = Unit.find(params[:id])
+    unit.lat = params[:lat]
+    unit.lon = params[:lon]
+    unit.save!
+
+    respond_to do |format|
+      format.json { head :ok }
+    end
+  end
+  
   def breaks
     @events = Event.where(archived: nil, state_id: 8).order("created_at desc").all
   end
