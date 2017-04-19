@@ -1,7 +1,9 @@
 ﻿1. Asenna https://s3.amazonaws.com/railsinstaller/Windows/railsinstaller-3.3.0.exe
-2. Pura http://kivimaa.fi/tilannekuva.zip sopivaan paikkaan, esim Tiedostot (Documents)
+2. Pura http://kivimaa.fi/tilannekuva.zip sopivaan paikkaan, esim c:\
+   (vältä isoja kirjaimia polussa, nämä eivät toimi kaikissa alla olevan Ruby-moottorin
+   versioissa)
 3. Käynnistä Windows PowerShell
-4. Mene hakemistoon Documents\tilannekuva
+4. Mene hakemistoon C:\tilannekuva
 5. Aja: ruby .\bin\bundle install
 
 Asennus on nyt valmis.
