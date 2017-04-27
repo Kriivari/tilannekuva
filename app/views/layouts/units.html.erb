@@ -22,30 +22,55 @@
         var latlng = new google.maps.LatLng( "<%= @operation.latitude %>", "<%= @operation.longitude %>" );
         map = new google.maps.Map(document.getElementById("map_canvas"), {'zoom': <%= @operation.zoom %>, 'center': latlng });
         var marker;
-        var pos;
-<% i = 0 %>    
+    var pos;
+    var carWhite = "/images/white.png";
+    var carGreen = "/images/green.png";
+    var carYellow = "/images/yellow.png";
+    var carRed = "/images/red.png";
+    var carPink = "/images/pink.png";
+    var carBlue = "/images/blue.png";
+    var footWhite = "/images/cross-white.png";
+    var footGreen = "/images/cross-green.png";
+    var footYellow = "/images/cross-yellow.png";
+    var footRed = "/images/cross-red.png";
+    var footPink = "/images/cross-pink.png";
+    var footBlue = "/images/cross-blue.png";
 <% for unit in @units %>
-<% i = i + 1 %>
-<% if unit.car %>
-<% prefix = "" %>
-<% else %>
-<% prefix = "cross-" %>
-<% end %>
-        var image = "/images/<%=prefix%>white.png";
+        var image = carWhite;
 <% if unit.state != nil && ( unit.state.id == 1 || unit.state.id == 7 ) %>
-        image = "/images/<%=prefix%>green.png";
+<% if unit.car %>
+        image = carGreen;
+<% else %>
+        image = footGreen;
+<% end %>
 <% end %>
 <% if unit.state != nil && unit.state.id == 2 %>
-        image = "/images/<%=prefix%>yellow.png";
+<% if unit.car %>
+        image = carYellow;
+<% else %>
+        image = footYellow;
+<% end %>
 <% end %>
 <% if unit.state != nil && ( unit.state.id == 3 || unit.state.id == 4 ) %>
-        image = "/images/<%=prefix%>red.png";
+<% if unit.car %>
+        image = carRed;
+<% else %>
+        image = footRed;
+<% end %>
 <% end %>
 <% if unit.state != nil && ( unit.state.id == 5 || unit.state.id == 6 ) %>
-        image = "/images/<%=prefix%>pink.png";
+<% if unit.car %>
+        image = carPink;
+<% else %>
+        image = footPink;
+<% end %>
 <% end %>
 <% if unit.state != nil && ( unit.state.id == 8 || unit.state.id == 9 ) %>
-        image = "/images/<%=prefix%>blue.png";
+<% if unit.car %>
+        image = carBlue;
+<% else %>
+        image = footBlue;
+<% end %>
 <% end %>
 <% if unit.lat && unit.lon && ( ! unit.location || unit.updated_at > Time.now - 900 ) %>
         pos = new google.maps.LatLng( <%= unit.lat %>, <%= unit.lon %>);
