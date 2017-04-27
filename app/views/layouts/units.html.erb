@@ -23,18 +23,6 @@
         map = new google.maps.Map(document.getElementById("map_canvas"), {'zoom': <%= @operation.zoom %>, 'center': latlng });
         var marker;
     var pos;
-    var carWhite = "/images/white.png";
-    var carGreen = 
-    var carYellow = "/images/yellow.png";
-    var carRed = "/images/red.png";
-    var carPink = "/images/pink.png";
-    var carBlue = "/images/blue.png";
-    var footWhite = "/images/cross-white.png";
-    var footGreen = "/images/cross-green.png";
-    var footYellow = "/images/cross-yellow.png";
-    var footRed = "/images/cross-red.png";
-    var footPink = "/images/cross-pink.png";
-    var footBlue = "/images/cross-blue.png";
 <% i = 0 %>
 <% for unit in @units %>
 <% i = i + 1 %>
