@@ -24,7 +24,7 @@
         var marker;
     var pos;
     var carWhite = "/images/white.png";
-    var carGreen = "/images/green.png";
+    var carGreen = 
     var carYellow = "/images/yellow.png";
     var carRed = "/images/red.png";
     var carPink = "/images/pink.png";
@@ -35,46 +35,29 @@
     var footRed = "/images/cross-red.png";
     var footPink = "/images/cross-pink.png";
     var footBlue = "/images/cross-blue.png";
+<% i = 0 %>
 <% for unit in @units %>
-        var image = carWhite;
+<% i = i + 1 %>
+<% prefix = ( unit.car ? "" : "cross-" ) %>
+        var image<%= i %> = "/images/<%= prefix %>white.png";
 <% if unit.state != nil && ( unit.state.id == 1 || unit.state.id == 7 ) %>
-<% if unit.car %>
-        image = carGreen;
-<% else %>
-        image = footGreen;
-<% end %>
+        image<%= i %> = "/images/<%= prefix %>green.png";
 <% end %>
 <% if unit.state != nil && unit.state.id == 2 %>
-<% if unit.car %>
-        image = carYellow;
-<% else %>
-        image = footYellow;
-<% end %>
+        image<%= i %> = "/images/<%= prefix %>yellow.png";
 <% end %>
 <% if unit.state != nil && ( unit.state.id == 3 || unit.state.id == 4 ) %>
-<% if unit.car %>
-        image = carRed;
-<% else %>
-        image = footRed;
-<% end %>
+        image<%= i %> = "/images/<%= prefix %>red.png";
 <% end %>
 <% if unit.state != nil && ( unit.state.id == 5 || unit.state.id == 6 ) %>
-<% if unit.car %>
-        image = carPink;
-<% else %>
-        image = footPink;
-<% end %>
+        image<%= i %> = "/images/<%= prefix %>pink.png";
 <% end %>
 <% if unit.state != nil && ( unit.state.id == 8 || unit.state.id == 9 ) %>
-<% if unit.car %>
-        image = carBlue;
-<% else %>
-        image = footBlue;
-<% end %>
+        image<%= i %> = "/images/<%= prefix %>blue.png";
 <% end %>
 <% if unit.lat && unit.lon && ( ! unit.location || unit.updated_at > Time.now - 900 ) %>
         pos = new google.maps.LatLng( <%= unit.lat %>, <%= unit.lon %>);
-        marker = new google.maps.Marker({position: pos, draggable: true, icon: image, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>", id: "<%=unit.id%>", map: map });
+        marker = new google.maps.Marker({position: pos, draggable: true, icon: image<%= i %>, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>", id: "<%=unit.id%>", map: map });
         google.maps.event.addListener(marker, 'dragend', function(event) {
           var lat = event.latLng.lat();
           var lon = event.latLng.lng();
@@ -84,7 +67,7 @@
         geocoder.geocode({'address': "<%= unit.location %>,<%= @operation.postfix %>,FI"},
                           function(results, status) {
                             if( status == google.maps.GeocoderStatus.OK ) {
-                              var marker = new google.maps.Marker({position: results[0].geometry.location, draggable: true, icon: image, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>", id: "<%=unit.id%>", map: map });
+                              var marker = new google.maps.Marker({position: results[0].geometry.location, draggable: true, icon: image<%= i %>, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>", id: "<%=unit.id%>", map: map });
                               google.maps.event.addListener(marker, 'dragend', function(event) {
                                 var lat = event.latLng.lat();
                                 var lon = event.latLng.lng();
