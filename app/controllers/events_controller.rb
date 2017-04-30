@@ -196,7 +196,7 @@ class EventsController < ApplicationController
       event.save
     end
     units = Unit.all
-    free = State.where(state: 'Vapaa').all
+    free = State.where(state: 'Vapaa').first
     for unit in units
       if unit.listorder == 1
         unit.listorder = -1
@@ -209,8 +209,8 @@ class EventsController < ApplicationController
   end
 
   def statistics
-    @transports = Event.transport
-    @customers = Event.customer
+    @transports = Event.transport.size
+    @customers = Event.customer.size
     @reachtotal = 0
     @reachcount = 0
     @transporttotal = 0
