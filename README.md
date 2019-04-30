@@ -11,16 +11,17 @@ Asennus on nyt valmis.
 6. Käynnistä tilannekuva ajamalla kohdan 4. hakemistossa: ruby .\bin\rails server
    - Jos pitää päästä käsiksi muiltakin koneilta, käynnistä komennolla: ruby .\bin\rails server -b 0.0.0.0
 7. Mene osoitteeseen http://localhost:3000/ - käyttäjätunnus on risti ja salasana sparra
+   (nämä voi muuttaa tiedostossa config/environments/development.rb)
 8. Klikkaa ylhäältä Yksiköiden hallinta ja muokkaa yksiköt haluamaksesi
 9. Jos haluat karttapohjan, klikkaa ylhäältä Operaatiot ja New operation 
    - Paikkapääte on itse asiassa kunta (eli jos operaatio on Lahdessa, laita siihen Lahti).
    - Googlen karttaan hyvä zoom on 12-14, leveys 800 ja korkeus 600-800.
    - Koordinaatit pitää antaa WGS84 desimaalimuodossa, helpoin tapa tähän on
-     http://kansalaisen.karttapaikka.fi ja zoomaile kartan kohdistinristi oikeaan keskipisteeseen,
-     ja oikealta zoomauspalkin alta xy-napista ETRS89 maantieteelliset, kolmannessa muodossa
-     (eli asteita ja asteen desimaaliosia). Koordinaatit pitää antaa pisteellä erotettuna,
-     pilkku ei kelpaa.
-   - Tekstiviestit ja TETRA-yhteys eivät oikeasti toimi.
+     http://kansalaisen.karttapaikka.fi ja zoomaile kartan kohdistinristi oikeaan
+     keskipisteeseen, ja oikealta zoomauspalkin alta xy-napista ETRS89 maantieteelliset,
+     kolmannessa muodossa (eli asteita ja asteen desimaaliosia). Koordinaatit pitää antaa
+     pisteellä erotettuna, pilkku ei kelpaa.
+   - TETRA-yhteys ei oikeasti toimi.
 
 Yleisiä käyttöohjeita
 - Järjestelmä yrittää olla fiksu ja pyrkii pitämään sijainnin ja tehtäväkoodin
