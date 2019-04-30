@@ -7,18 +7,16 @@
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 <% if controller.action_name == 'view' %>
-  <meta http-equiv="refresh" content="15" />
+  <meta http-equiv="refresh" content="60" />
 <% end %>
 <% if @operation && @operation.zoom != nil && @operation.zoom.length > 0 %>
-  <script async defer src="http://maps.googleapis.com/maps/api/js?key=AIzaSyD-Ssj0qJIl5c15Dm9asThaBlnk1JyqDNA&callback=initMap" type="text/javascript"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2_NFShvGrK95C6KYML-4ytRxy7HfOgwk&callback=initMap" type="text/javascript"></script>
   <script type="text/javascript">
     var map;
-    var geocoder;
     var name;
     var details;
 
     function initMap() {
-        geocoder = new google.maps.Geocoder();
         var latlng = new google.maps.LatLng( "<%= @operation.latitude %>", "<%= @operation.longitude %>" );
         map = new google.maps.Map(document.getElementById("map_canvas"), {'zoom': <%= @operation.zoom %>, 'center': latlng });
         var marker;
@@ -52,27 +50,18 @@
           $.post( "/events/drag", { id: <%= unit.id %>, lat: event.latLng.lat(), lon: event.latLng.lng() } );
         });
 <% else %>
-        geocoder.geocode({'address': "<%= unit.location %>,<%= @operation.postfix %>,FI"},
-                          function(results, status) {
-                            if( status == google.maps.GeocoderStatus.OK ) {
-                              var marker = new google.maps.Marker({position: results[0].geometry.location, draggable: true, icon: image<%= i %>, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>", id: "<%=unit.id%>", map: map });
-                              google.maps.event.addListener(marker, 'dragend', function(event) {
-                                var lat = event.latLng.lat();
-                                var lon = event.latLng.lng();
-                                $.post( "/events/drag", { id: <%= unit.id%>, lat: event.latLng.lat(), lon: event.latLng.lng() } );
-                              });
-                           }
-                         });
+        var encoded = encodeURI("<%= unit.location %>, <%= @operation.postfix %>, FI");
+        var latlon = $.get("https://maps.googleapis.com/maps/api/geocode/json?address=" + encoded + "&key=AIzaSyD2_NFShvGrK95C6KYML-4ytRxy7HfOgwk", function(data) {
+                $.post( "/events/drag", { id: <%= unit.id%>, lat: data.results[0].geometry.location.lat, lon: data.results[0].geometry.location.lng } );
+});
 <% end %>
 <% end %>
 <% if @queue %>
 <% for queue in @queue %>
-        geocoder.geocode({'address': "<%= queue.location %>,<%= @operation.postfix %>,FI"},
-                         function(results,status) {
-                           if (status == google.maps.GeocoderStatus.OK) {
-                             var marker = new google.maps.Marker({position: results[0].geometry.location, icon: "/images/queue.png", title:"<%= queue.message %> <%= queue.code %>", map: map});
-                           }
-                         });
+        var encoded = encodeURI("<%= queue.location %>, <%= @operation.postfix %>, FI");
+        var latlon = $.get("https://maps.googleapis.com/maps/api/geocode/json?address=" + encoded + "&key=AIzaSyD2_NFShvGrK95C6KYML-4ytRxy7HfOgwk", function(data) {
+                var marker = new google.maps.Marker({position: data.results[0].geometry.location, icon: "/images/queue.png", title:"<%= queue.message %> <%= queue.code %>", map: map});
+});
 <% end %>
 <% end %>
     }
