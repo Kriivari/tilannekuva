@@ -46,9 +46,13 @@
   
   <%= yield :top_content %>
 
-  <div class="container">
-    <h1><%= yield :header %></h1>
-    <%= yield %>
+  <h1><%= yield :header %></h1>
+  <div class="box">
+    <div class="box-body">
+      <div class="container p-2">
+        <%= yield %>
+      </div>
+    </div>
   </div>
 
 </body>
