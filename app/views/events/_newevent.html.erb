@@ -12,18 +12,18 @@
 
 <input type="hidden" name="previous" value="<%= from %>" /></td>
 <div class="row">
-  <div class="col"><strong>Yksikk&ouml;</strong></div>
-  <div class="col"><strong>Tila</strong></div>
-  <div class="col-3"><strong>Paikka</strong></div>
-  <div class="col-5"><strong>Viesti</strong></div>
+  <div class="col-2"><strong>Yksikk&ouml;</strong></div>
+  <div class="col-2"><strong>Tila</strong></div>
+  <div class="col-2"><strong>Paikka</strong></div>
+  <div class="col-4"><strong>Viesti</strong></div>
   <div class="col"><strong>Johto kutsui</strong></div>
   <div class="col"></div>
 </div>
 <div class="row">
-  <div class="col"><%= collection_select(:event, :unit_id, Unit.list, :id, :unit) %></div>
-  <div class="col"><%= collection_select(:event, :state_id, State.all, :id, :state) %></div>
-  <div class="col-3"><%= collection_select(:event, :location_id, Location.list, :id, :formtext, {include_blank: true}, {class: 'flexselect'} ) %></div>
-  <div class="col-5"><%= f.text_field :message %></div>
+  <div class="col-2"><%= collection_select(:event, :unit_id, Unit.list, :id, :unit) %></div>
+  <div class="col-2"><%= collection_select(:event, :state_id, State.all, :id, :state) %></div>
+  <div class="col-2"><%= collection_select(:event, :location_id, Location.list, :id, :formtext, {include_blank: true}, {class: 'flexselect'} ) %></div>
+  <div class="col-4"><%= f.text_field :message %></div>
   <div class="col"><%= f.check_box :from_hq, {}, true, false %></div>
   <div class="col"><%= f.submit "Luo" %></div>
 </div>
