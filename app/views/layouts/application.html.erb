@@ -10,13 +10,14 @@
   <header class="main-header"
     <nav class="navbar navbar-static-top navbar-expand-lg" role="navigation">
       <a href="/" class="navbar-brand">Tilannekuva</a>
-	<ul class="navbar-nav mr-auto">
-	  <li class="nav-item"><%= link_to 'Tilannekuva syötöllä', units_path, class: 'nav-link' %></li>
-	  <li class="nav-item"><%= link_to 'Tapahtumat', events_path, class: 'nav-link' %></li>
-	  <li class="nav-item"><%= link_to 'Uusi tapahtuma', new_event_path, class: 'nav-link' %></li>
-	  <li class="nav-item"><%= link_to 'Yksiköiden hallinta', units_available_path, class: 'nav-link' %></li>
-	  <li class="nav-item"><%= link_to 'Operaatiot', operations_path, class: 'nav-link' %></li>
-	  <li class="nav-item"><%= link_to 'Koodit', codes_path, class: 'nav-link' %></li>
+      <div class="collapse navbar-collapse">
+	<div class="navbar-nav">
+	  <%= link_to 'Tilannekuva syötöllä', units_path, class: 'nav-link' %>
+	  <%= link_to 'Tapahtumat', events_path, class: 'nav-link' %>
+	  <%= link_to 'Uusi tapahtuma', new_event_path, class: 'nav-link' %>
+	  <%= link_to 'Yksiköiden hallinta', units_available_path, class: 'nav-link' %>
+	  <%= link_to 'Operaatiot', operations_path, class: 'nav-link' %>
+	  <%= link_to 'Koodit', codes_path, class: 'nav-link' %>
 	</ul>
 <% if ! Rails.configuration.use_basic_auth %>
 	<ul class="nav navbar-nav pull-right">
@@ -34,7 +35,8 @@
 	  <li><%= link_to 'Kirjaudu sisään', new_user_session_path %></li>
 	  <% end %>
 	</ul>
-<% end %>
+	<% end %>
+      </div>
     </nav>
   </header>
   <p class="notice"><%= notice %></p>
