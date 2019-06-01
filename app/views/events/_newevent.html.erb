@@ -20,12 +20,12 @@
   <div class="col"></div>
 </div>
 <div class="row">
-  <div class="col-2"><%= collection_select(:event, :unit_id, Unit.list, :id, :unit) %></div>
-  <div class="col-2"><%= collection_select(:event, :state_id, State.all, :id, :state) %></div>
-  <div class="col-2"><%= collection_select(:event, :location_id, Location.list, :id, :formtext, {include_blank: true}, {class: 'flexselect'} ) %></div>
-  <div class="col-4"><%= f.text_field :message %></div>
-  <div class="col"><%= f.check_box :from_hq, {}, true, false %></div>
-  <div class="col"><%= f.submit "Luo" %></div>
+  <div class="col-2"><div class="form-group"><%= collection_select(:event, :unit_id, Unit.list, :id, :unit) %></div></div>
+  <div class="col-2"><div class="form-group"><%= collection_select(:event, :state_id, State.all, :id, :state) %></div></div>
+  <div class="col-2"><div class="form-group"><%= collection_select(:event, :location_id, Location.list, :id, :formtext, {include_blank: true}, {class: 'flexselect'} ) %></div></div>
+  <div class="col-4"><div class="form-group"><%= f.text_field :message %></div></div>
+  <div class="col"><div class="form-group"><%= f.check_box :from_hq, {}, true, false %></div></div>
+  <div class="col"><div class="form-group"><%= f.submit "Luo" %></div></div>
 </div>
 
 
