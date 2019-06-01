@@ -11,16 +11,22 @@
     </script>
 
 <input type="hidden" name="previous" value="<%= from %>" /></td>
-<table>
-<tr><th>Yksikk&ouml;</th><th>Tila</th><th>Koodi</th><th>Paikka</th><th>Johto kutsui</th><th>Selite</th></tr>
-<tr>
-  <td><%= collection_select(:event, :unit_id, Unit.list, :id, :unit) %></td>
-  <td><%= collection_select(:event, :state_id, State.all, :id, :state) %></td>
-  <td><%= collection_select(:event, :location_id, Location.list, :id, :formtext, {include_blank: true}, {class: 'flexselect'} ) %></td>
-  <td><%= f.text_field :message %></td>
-  <td><%= f.check_box :from_hq, {}, true, false %></td>
-  <td><%= f.submit "Luo" %></td>
-</tr>
-</table>
+<div class="row">
+  <div class="col"><strong>Yksikk&ouml;</strong></div>
+  <div class="col"><strong>Tila</strong></div>
+  <div class="col"><strong>Paikka</strong></div>
+  <div class="col-2"><strong>Viesti</strong></div>
+  <div class="col"><strong>Johto kutsui</strong></div>
+  <div class="col"></div>
+</div>
+<div class="row">
+  <div class="col"><%= collection_select(:event, :unit_id, Unit.list, :id, :unit) %></div>
+  <div class="col"><%= collection_select(:event, :state_id, State.all, :id, :state) %></div>
+  <div class="col"><%= collection_select(:event, :location_id, Location.list, :id, :formtext, {include_blank: true}, {class: 'flexselect'} ) %></div>
+  <div class="col"><%= f.text_field :message %></div>
+  <div class="col"><%= f.check_box :from_hq, {}, true, false %></div>
+  <div class="col"><%= f.submit "Luo" %></div>
+</div>
+
 
 

@@ -9,12 +9,12 @@
 </p>
 
   <div class="row">
-    <div class="col">Aika</div>
-    <div class="col">Yksikk&ouml;</div>
-    <div class="col">Tila</div>
-    <div class="col">Paikka</div>
-    <div class="col">Viesti</div>
-    <div class="col">Johdosta</div>
+    <div class="col"><strong>Aika</strong></div>
+    <div class="col"><strong>Yksikk&ouml;</strong></div>
+    <div class="col"><strong>Tila</strong></div>
+    <div class="col-3"><strong>Paikka</strong></div>
+    <div class="col-4"><strong>Viesti</strong></div>
+    <div class="col"><strong>Johdosta</strong></div>
     <div class="col"></div>
   </div>
 
@@ -23,8 +23,8 @@
     <div class="col"><%= event.updated_at.strftime('%H.%M') %></div>
     <div class="col"><%= event.unit %></div>
     <div class="col"><%= event.state %></div>
-    <div class="col"><%= event.location %></div>
-    <div class="col"><%= event.message %></div>
+    <div class="col-3"><%= event.location %></div>
+    <div class="col-4"><%= event.message %></div>
     <div class="col"><% if event.from_hq %>
 X
 <% end %></div>
