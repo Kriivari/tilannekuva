@@ -23,7 +23,7 @@
   <div class="col"><%= collection_select(:event, :unit_id, Unit.list, :id, :unit) %></div>
   <div class="col"><%= collection_select(:event, :state_id, State.all, :id, :state) %></div>
   <div class="col"><%= collection_select(:event, :location_id, Location.list, :id, :formtext, {include_blank: true}, {class: 'flexselect'} ) %></div>
-  <div class="col"><%= f.text_field :message %></div>
+  <div class="col-2"><%= f.text_field :message %></div>
   <div class="col"><%= f.check_box :from_hq, {}, true, false %></div>
   <div class="col"><%= f.submit "Luo" %></div>
 </div>
