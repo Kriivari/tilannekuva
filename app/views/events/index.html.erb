@@ -12,10 +12,10 @@
     <div class="col">Aika</div>
     <div class="col">Yksikk&ouml;</div>
     <div class="col">Tila</div>
-    <div class="col">Koodi</div>
     <div class="col">Paikka</div>
-    <div class="col">Johdosta</div>
     <div class="col">Viesti</div>
+    <div class="col">Johdosta</div>
+    <div class="col" />
   </div>
 
 <% for event in @events %>
@@ -23,12 +23,11 @@
     <div class="col"><%= event.updated_at.strftime('%H.%M') %></div>
     <div class="col"><%= event.unit %></div>
     <div class="col"><%= event.state %></div>
-    <div class="col"><%= event.code %></div>
     <div class="col"><%= event.location %></div>
+    <div class="col"><%= event.message %></div>
     <div class="col"><% if event.from_hq %>
 X
 <% end %></div>
-    <div class="col"><%= event.message %></div>
     <div class="col"><%= link_to 'Poista', event, :confirm => 'Oletko varma?', :method => :delete %></div>
   </div>
 <% end %>
