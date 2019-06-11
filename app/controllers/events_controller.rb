@@ -80,7 +80,7 @@ class EventsController < ApplicationController
         if @event.code == nil || @event.code.id == 0
           @event.code = current.code
         end
-        if @event.message == nil || @event.message.length == 0
+        if (locationtext == nil || locationtext.length == 0) && (@event.message == nil || @event.message.length == 0)
           @event.message = current.message
         end
       end
