@@ -10,10 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170413220000) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20190611045048) do
 
   create_table "codes", force: :cascade do |t|
     t.text "code"
@@ -40,6 +37,8 @@ ActiveRecord::Schema.define(version: 20170413220000) do
     t.integer "type_id"
     t.integer "x"
     t.integer "y"
+    t.float   "lat"
+    t.float   "lon"
   end
 
   create_table "operations", force: :cascade do |t|
@@ -73,10 +72,11 @@ ActiveRecord::Schema.define(version: 20170413220000) do
     t.integer  "location_id"
     t.integer  "listorder",   default: 1
     t.text     "phone"
-    t.text     "details"
     t.text     "imei"
     t.float    "lat"
     t.float    "lon"
+    t.text     "details"
+    t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "car"
   end
@@ -87,25 +87,11 @@ ActiveRecord::Schema.define(version: 20170413220000) do
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.integer  "operation_id"
-    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "events", "codes", name: "events_code_id_fkey"
-  add_foreign_key "events", "locations", name: "events_location_id_fkey"
-  add_foreign_key "events", "operations"
-  add_foreign_key "events", "states", name: "events_state_id_fkey"
-  add_foreign_key "events", "units", name: "events_unit_id_fkey"
-  add_foreign_key "locations", "types", name: "locations_type_id_fkey"
-  add_foreign_key "units", "locations", name: "units_location_id_fkey"
-  add_foreign_key "units", "states", name: "units_state_id_fkey"
-  add_foreign_key "users", "operations"
 end

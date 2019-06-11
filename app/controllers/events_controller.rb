@@ -101,17 +101,17 @@ class EventsController < ApplicationController
         location = Location.create
         location.location = locationtext
         location.type_id = 0
-        location.x = results.first.coordinates[1]
-        location.y = results.first.coordinates[0]
+        location.lat = results.first.coordinates[0]
+        location.lon = results.first.coordinates[1]
         location.save
       end
       @event.location = location
     end
     @event.unit.state = @event.state
     @event.unit.location = @event.location
-    if @event.location.x
-      @event.unit.lon = @event.location.x
-      @event.unit.lat = @event.location.y
+    if @event.location.lat
+      @event.unit.lat = @event.location.lat
+      @event.unit.lon = @event.location.lon
     end
 
     respond_to do |format|
