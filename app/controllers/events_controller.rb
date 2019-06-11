@@ -90,17 +90,28 @@ class EventsController < ApplicationController
     end
 
     if ! @event.location || ( @event.location.id == 0 && locationtext && locationtext.length > 0 )
-      location = Location.create
-      location.location = locationtext
-      location.type_id = 0
-      location.save
+      location = Location.find_by_location(locationtext)
+      if ! location
+        usname = locationtext;
+        split = locationtext.split(" ");
+        usname = split[1] + "," + split[0] if split.length > 1
+        usname = usname + ',Helsinki,Finland'
+        logger.info('Requesting ' + usname)
+        results = Geocoder.search(usname)
+        location = Location.create
+        location.location = locationtext
+        location.type_id = 0
+        location.x = results.first[1]
+        location.y = results.first[0]
+        location.save
+      end
       @event.location = location
     end
     @event.unit.state = @event.state
     @event.unit.location = @event.location
     if @event.location.x
-      @event.unit.x = @event.location.x
-      @event.unit.y = @event.location.y
+      @event.unit.lon = @event.location.x
+      @event.unit.lat = @event.location.y
     end
 
     respond_to do |format|
