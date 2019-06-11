@@ -10,9 +10,9 @@
   <meta http-equiv="refresh" content="60" />
 <% end %>
 <% if @operation && @operation.zoom != nil && @operation.zoom.length > 0 %>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD2_NFShvGrK95C6KYML-4ytRxy7HfOgwk&callback=initMap" type="text/javascript"></script>
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=<%= ENV['GOOGLE_API_KEY'] %>&callback=initMap" type="text/javascript"></script>
   <script type="text/javascript">
-    var token="pk.443b2161626b3021d6e086b5fbb52757";
+    var google_key='<%= ENV["GOOGLE_API_KEY"] %>'
     var map;
     var name;
     var details;
@@ -48,20 +48,18 @@
 <% end %>
         if( lat && lon && ( ! location || updated > (new Date()).getTime() / 1000 - 900 ) ) {
             pos = new google.maps.LatLng( lat, lon );
-            marker = new google.maps.Marker({position: pos, draggable: true, icon: image<%= i %>, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>", id: "<%=unit.id%>", map: map });
+            marker = new google.maps.Marker({position: pos, draggable: true, icon: image<%= i %>, title:"<%= unit %> <%= unit.state %> <%= unit.currentmessage %>", id: "<%=unit.id%>", map: map });
             google.maps.event.addListener(marker, 'dragend', function(event) {
               $.post( "/events/drag", { id: <%= unit.id %>, lat: event.latLng.lat(), lon: event.latLng.lng() } );
             });
         } else {
-            marker = new google.maps.Marker({position: new google.maps.LatLng( lat, lon ), draggable: true, icon: image<%= i %>, title:"<%= unit %> <%= unit.state %> <%= unit.currentcode %> <%= unit.currentmessage %>", id: "<%=unit.id%>", map: map });
+            marker = new google.maps.Marker({position: new google.maps.LatLng( lat, lon ), draggable: true, icon: image<%= i %>, title:"<%= unit %> <%= unit.state %> <%= unit.currentmessage %>", id: "<%=unit.id%>", map: map });
         }
 <% end %>
 <% if @queue %>
-<% for queue in @queue %>
+x<% for queue in @queue %>
         var encoded = encodeURI("<%= queue.location %>, <%= @operation.postfix %>, FI");
-        var latlon = $.get("https://maps.googleapis.com/maps/api/geocode/json?address=" + encoded + "&key=AIzaSyD2_NFShvGrK95C6KYML-4ytRxy7HfOgwk", function(data) {
-                var marker = new google.maps.Marker({position: data.results[0].geometry.location, icon: "/images/queue.png", title:"<%= queue.message %> <%= queue.code %>", map: map});
-});
+        var marker = new google.maps.Marker({position: new google.maps.LatLng( lat, lon ), draggable: true, icon: '/images/queue.png', title:"<%= queue.message %>", map: map });
 <% end %>
 <% end %>
     }
