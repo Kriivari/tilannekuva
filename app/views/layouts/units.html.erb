@@ -20,6 +20,7 @@
     function initMap() {
         var latlng = new google.maps.LatLng( "<%= @operation.latitude %>", "<%= @operation.longitude %>" );
         map = new google.maps.Map(document.getElementById("map_canvas"), {'zoom': <%= @operation.zoom %>, 'center': latlng });
+        returnToSavedPosition(map);
         var marker;
         var pos;
 <% i = 0 %>
@@ -161,6 +162,7 @@ x<% for queue in @queue %>
     <h1><%= yield :header %></h1>
     <%= yield %>
   </div>
+        <div><button type="button" class="btn btn-primary" onClick="savePosition(map)">Talleta karttasijainti</button></div>
 
 
 </body>
