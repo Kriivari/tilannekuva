@@ -103,7 +103,7 @@ GEM
     orm_adapter (0.5.0)
     pg (1.1.4)
     popper_js (1.14.5)
-    puma (3.12.1)
+    puma (3.12.6)
     rack (2.0.7)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -199,7 +199,7 @@ DEPENDENCIES
   jquery-rails
   listen (~> 3.0.5)
   pg (>= 0.12.0)
-  puma (~> 3.0)
+  puma (~> 3.12)
   rails (~> 5.0.1)
   sassc-rails
   serialport
